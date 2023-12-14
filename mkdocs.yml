@@ -107,7 +107,8 @@ nav:
   - 第 9 章 &nbsp; 字符串:
     - ch09_string/index.md
     - 9.1 &nbsp; BF匹配: ch09_string/bf.md
-    - 9.2 &nbsp; KMP匹配: ch09_string/kmp.md
+    - 9.2 &nbsp; RK匹配: ch09_string/rk.md
+    - 9.3 &nbsp; KMP匹配: ch09_string/kmp.md
   - 第 10 章 &nbsp; 排序:
     - ch10_sort/index.md
     - 10.1 &nbsp; 冒泡排序: ch10_sort/bubblesort.md
