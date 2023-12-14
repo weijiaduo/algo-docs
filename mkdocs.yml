@@ -53,17 +53,6 @@ theme:
 # Plugins
 plugins:
   - search
-  - glightbox:
-      touchNavigation: true
-      loop: false
-      effect: zoom
-      slide_effect: none
-      width: 100%
-      height: auto
-      zoomable: true
-      draggable: false
-      auto_caption: false
-      caption_position: bottom
 
 # Extensions
 markdown_extensions:
