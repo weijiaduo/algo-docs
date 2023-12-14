@@ -1,12 +1,3 @@
----
-title: BF 算法
-date: 2023-03-28 01:21:50
-categories: [数据结构与算法, 字符串匹配]
-tags: [算法, BF 算法]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # BF 算法
 
 BF 算法，即 Brute Force，暴力匹配算法，也叫朴素匹配算法。

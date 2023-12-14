@@ -1,12 +1,3 @@
----
-title: 二分查找
-date: 2022-09-08 04:26:54
-categories: [数据结构与算法, 查找算法]
-tags: [算法, 二分法]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # 二分查找
 
 ## 一、代码模板

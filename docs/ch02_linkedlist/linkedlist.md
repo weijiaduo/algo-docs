@@ -1,11 +1,3 @@
----
-title: 链表
-date: 2023-10-08 23:40:30
-categories: [数据结构与算法, 数据结构]
-tags: [算法, 数据结构, 链表]
-thumbnail: /img/structure.jpg
----
-
 # 链表
 
 ## 一、结构特性

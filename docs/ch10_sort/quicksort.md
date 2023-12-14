@@ -1,12 +1,3 @@
----
-title: 快速排序
-date: 2022-07-16 10:26:54
-categories: [数据结构与算法, 排序算法]
-tags: [算法, 排序, 快速排序]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # 快速排序
 
 ## 一、算法描述

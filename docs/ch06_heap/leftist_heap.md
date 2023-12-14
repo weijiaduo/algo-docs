@@ -1,12 +1,3 @@
----
-title: 左倾堆
-date: 2023-09-27 19:22:30
-categories: [数据结构与算法, 数据结构]
-tags: [数据结构, 算法, 堆, 左倾堆]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # 左倾堆
 
 ## 一、什么是左倾堆？

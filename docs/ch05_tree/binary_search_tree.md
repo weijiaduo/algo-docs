@@ -1,11 +1,3 @@
----
-title: 二叉搜索树
-date: 2023-10-11 19:07:30
-categories: [数据结构与算法, 数据结构]
-tags: [数据结构, 算法, 二叉搜索树]
-thumbnail: /img/structure.jpg
----
-
 #  二叉搜索树
 
 ## 一、结构定义

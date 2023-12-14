@@ -1,12 +1,3 @@
----
-title: 跳表
-date: 2022-09-18 22:31:54
-categories: [数据结构与算法, 数据结构]
-tags: [算法, 数据结构, 跳表]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # 跳表
 
 ## 一、什么是跳表？

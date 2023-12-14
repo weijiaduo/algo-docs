@@ -1,12 +1,3 @@
----
-title: 红黑树
-date: 2023-02-09 23:39:30
-categories: [数据结构与算法, 数据结构]
-tags: [数据结构, 算法, 红黑树]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # 红黑树
 
 ## 一、什么是红黑树？

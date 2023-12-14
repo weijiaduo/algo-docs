@@ -1,12 +1,3 @@
----
-title: B-树
-date: 2023-01-12 02:31:30
-categories: [数据结构与算法, 数据结构]
-tags: [B-树, 数据结构, 算法]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # B-树
 
 ## 一、B-树是什么？

@@ -1,11 +1,3 @@
----
-title: 三向快速排序
-date: 2023-10-05 10:26:54
-categories: [数据结构与算法, 排序算法]
-tags: [算法, 排序, 三向快速排序]
-thumbnail: /img/structure.jpg
----
-
 # 三向快速排序
 
 ## 一、算法描述

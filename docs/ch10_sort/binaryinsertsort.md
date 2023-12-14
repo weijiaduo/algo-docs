@@ -1,11 +1,3 @@
----
-title: 二分插入排序
-date: 2023-09-28 23:26:54
-categories: [数据结构与算法, 排序算法]
-tags: [算法, 排序, 二分插入排序]
-thumbnail: /img/structure.jpg
----
-
 # 二分插入排序
 
 ## 一、算法描述

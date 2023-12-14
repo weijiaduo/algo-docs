@@ -1,11 +1,3 @@
----
-title: 数组
-date: 2023-10-08 12:46:30
-categories: [数据结构与算法, 数据结构]
-tags: [算法, 数据结构, 数组]
-thumbnail: /img/structure.jpg
----
-
 # 数组
 
 ## 一、结构特性

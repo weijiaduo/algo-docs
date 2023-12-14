@@ -1,12 +1,3 @@
----
-title: 斜堆
-date: 2023-09-28 00:20:30
-categories: [数据结构与算法, 数据结构]
-tags: [数据结构, 算法, 堆, 斜堆]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # 斜堆
 
 ## 一、什么是斜堆？

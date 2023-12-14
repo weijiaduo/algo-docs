@@ -1,12 +1,3 @@
----
-title: 树状数组
-date: 2022-10-01 01:14:31
-categories: [数据结构与算法, 数据结构]
-tags: [算法, 数据结构, 树状数组]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # 树状数组
 
 ## 一、什么是树状数组

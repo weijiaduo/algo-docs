@@ -1,12 +1,3 @@
----
-title: 归并排序
-date: 2022-09-01 12:26:54
-categories: [数据结构与算法, 排序算法]
-tags: [算法, 排序, 归并排序]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # 归并排序
 
 ## 一、算法描述

@@ -1,11 +1,3 @@
----
-title: 二叉树
-date: 2023-10-10 22:31:30
-categories: [数据结构与算法, 数据结构]
-tags: [数据结构, 算法, 二叉树]
-thumbnail: /img/structure.jpg
----
-
 # 二叉树
 
 ## 一、什么是二叉树？

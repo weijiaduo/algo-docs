@@ -1,12 +1,3 @@
----
-title: KMP 算法
-date: 2023-03-28 02:41:54
-categories: [数据结构与算法, 字符串匹配]
-tags: [算法, KMP 算法]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # KMP 算法
 
 KMP 算法是一种字符串匹配算法，可以在 `O(n+m)` 的时间复杂度内实现两个字符串的匹配。

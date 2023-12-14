@@ -1,11 +1,3 @@
----
-title: 栈
-date: 2023-10-09 09:20:30
-categories: [数据结构与算法, 数据结构]
-tags: [算法, 数据结构, 栈]
-thumbnail: /img/structure.jpg
----
-
 # 栈
 
 ## 一、结构特性

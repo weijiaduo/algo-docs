@@ -1,11 +1,3 @@
----
-title: 单调栈
-date: 2023-10-12 18:32:30
-categories: [数据结构与算法, 数据结构]
-tags: [算法, 数据结构, 单调栈]
-thumbnail: /img/structure.jpg
----
-
 # 单调栈
 
 ## 一、什么是单调栈？

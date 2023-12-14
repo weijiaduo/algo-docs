@@ -1,12 +1,3 @@
----
-title: 索引堆
-date: 2023-02-26 01:32:30
-categories: [数据结构与算法, 数据结构]
-tags: [数据结构, 算法, 堆, 索引堆]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # 索引堆
 
 ## 一、什么是索引堆？

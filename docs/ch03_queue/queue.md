@@ -1,11 +1,3 @@
----
-title: 队列
-date: 2023-10-09 15:10:30
-categories: [数据结构与算法, 数据结构]
-tags: [算法, 数据结构, 队列]
-thumbnail: /img/structure.jpg
----
-
 # 队列
 
 ## 一、结构特性

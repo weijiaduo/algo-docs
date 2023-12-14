@@ -1,12 +1,3 @@
----
-title: 并查集
-date: 2022-09-27 08:38:23
-categories: [数据结构与算法, 数据结构]
-tags: [算法, 数据结构, 并查集]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # 并查集
 
 ## 一、什么是并查集？

@@ -1,12 +1,3 @@
----
-title: 线段树
-date: 2022-09-13 05:26:30
-categories: [数据结构与算法, 数据结构]
-tags: [算法, 数据结构, 线段树]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # 线段树
 
 ## 一、线段树是什么？

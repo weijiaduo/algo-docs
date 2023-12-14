@@ -1,12 +1,3 @@
----
-title: 堆
-date: 2023-02-26 00:22:30
-categories: [数据结构与算法, 数据结构]
-tags: [数据结构, 算法, 堆]
-thumbnail: /img/structure.jpg
-top: true
----
-
 # 堆
 
 ## 一、是什么？
