@@ -1,0 +1,135 @@
+site_name: step-algo docs
+site_author: weijiaduo
+site_description: 数据结构与算法学习笔记
+
+# Copyright
+copyright: Copyright &copy; 2023 - 2023 weijiaduo
+
+# Configuration
+theme:
+  name: material
+  language: zh
+  features:
+    # - announce.dismiss
+    - content.action.edit
+    # - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - content.tooltips
+    # - header.autohide
+    # - navigation.expand
+    - navigation.indexes
+    # - navigation.instant
+    # - navigation.prune
+    # - navigation.sections
+    # - navigation.tabs
+    # - navigation.tabs.sticky
+    - navigation.top
+    - navigation.footer
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    # - toc.integrate
+  palette:
+    - scheme: default
+      primary: white
+      # accent: indigo
+      toggle:
+        icon: material/theme-light-dark
+        name: Switch to dark mode
+    - scheme: slate
+      primary: grey
+      # accent: indigo
+      toggle:
+        icon: material/theme-light-dark
+        name: Switch to light mode
+  font:
+    text: Noto Sans SC
+    code: Fira Code
+
+# Plugins
+plugins:
+  - search
+  - glightbox:
+      touchNavigation: true
+      loop: false
+      effect: zoom
+      slide_effect: none
+      width: 100%
+      height: auto
+      zoomable: true
+      draggable: false
+      auto_caption: false
+      caption_position: bottom
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+
+# Page tree
+nav:
+  - 第 0 章 &nbsp; 前言: ch00_preface/index.md
+  - 第 1 章 &nbsp; 数组:
+    - ch01_array/index.md
+    - 1.1 &nbsp; 数组: ch01_array/array.md
+    - 1.2 &nbsp; 二分法: ch01_array/binary_search.md
+  - 第 2 章 &nbsp; 链表:
+    - ch02_linkedlist/index.md
+    - 2.1 &nbsp; 链表: ch02_linkedlist/linkedlist.md
+    - 2.2 &nbsp; 跳表: ch02_linkedlist/skiplist.md
+  - 第 3 章 &nbsp; 队列:
+    - ch03_queue/index.md
+    - 3.1 &nbsp; 队列: ch03_queue/queue.md
+  - 第 4 章 &nbsp; 栈:
+    - ch04_stack/index.md
+    - 4.1 &nbsp; 栈: ch04_stack/stack.md
+    - 4.2 &nbsp; 单调栈: ch04_stack/monotonic_stack.md
+  - 第 5 章 &nbsp; 树:
+    - ch05_tree/index.md
+    - 5.1 &nbsp; 二叉树: ch05_tree/binary_tree.md
+    - 5.2 &nbsp; 二叉搜索树: ch05_tree/binary_search_tree.md
+    - 5.3 &nbsp; 红黑树: ch05_tree/red_black_tree.md
+    - 5.4 &nbsp; 并查集: ch05_tree/union_find.md
+    - 5.5 &nbsp; 线段树: ch05_tree/segment_tree.md
+    - 5.6 &nbsp; 二叉索引树: ch05_tree/binary_index_tree.md
+    - 5.7 &nbsp; B-树: ch05_tree/b_tree.md
+    - 5.8 &nbsp; B+树: ch05_tree/bplus_tree.md
+  - 第 6 章 &nbsp; 堆:
+    - ch06_heap/index.md
+    - 6.1 &nbsp; 二叉堆: ch06_heap/heap.md
+    - 6.2 &nbsp; 索引堆: ch06_heap/index_heap.md
+    - 6.3 &nbsp; 左倾堆: ch06_heap/leftist_heap.md
+    - 6.4 &nbsp; 斜堆: ch06_heap/skew_heap.md
+  - 第 7 章 &nbsp; 哈希:
+    - ch07_hash/index.md
+    - 6.1 &nbsp; 哈希表: ch07_hash/hashtable.md
+  - 第 8 章 &nbsp; 图:
+    - ch08_graph/index.md
+  - 第 9 章 &nbsp; 字符串:
+    - ch09_string/index.md
+    - 9.1 &nbsp; BF匹配: ch09_string/bf.md
+    - 9.2 &nbsp; KMP匹配: ch09_string/kmp.md
+  - 第 10 章 &nbsp; 排序:
+    - ch10_sort/index.md
+    - 10.1 &nbsp; 冒泡排序: ch10_sort/bubblesort.md
+    - 10.2 &nbsp; 选择排序: ch10_sort/selectsort.md
+    - 10.3 &nbsp; 插入排序: ch10_sort/insertsort.md
+    - 10.4 &nbsp; 二分插入排序: ch10_sort/binaryinsertsort.md
+    - 10.5 &nbsp; 希尔排序: ch10_sort/shellsort.md
+    - 10.6 &nbsp; 归并排序: ch10_sort/mergesort.md
+    - 10.7 &nbsp; 堆排序: ch10_sort/heapsort.md
+    - 10.8 &nbsp; 快速排序: ch10_sort/quicksort.md
+    - 10.9 &nbsp; 三向快速排序: ch10_sort/quick3waysort.md
+    - 10.10 &nbsp; 计数排序: ch10_sort/countsort.md
+    - 10.11 &nbsp; 桶排序: ch10_sort/bucketsort.md
+    - 10.12 &nbsp; 基数排序: ch10_sort/radixsort.md
