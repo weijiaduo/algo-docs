@@ -1,0 +1,2441 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="数据结构与算法学习笔记">
+      
+      
+        <meta name="author" content="weijiaduo">
+      
+      
+      
+        <link rel="prev" href="../red_black_tree/">
+      
+      
+        <link rel="next" href="../segment_tree/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.12">
+    
+    
+      
+        <title>5.4   并查集 - step-algo docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="step-algo docs" class="md-header__button md-logo" aria-label="step-algo docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            step-algo docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5.4 &nbsp; 并查集
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.5 2c-1.79 1.15-3 3.18-3 5.5s1.21 4.35 3.03 5.5C4.46 13 2 10.54 2 7.5A5.5 5.5 0 0 1 7.5 2m11.57 1.5 1.43 1.43L4.93 20.5 3.5 19.07 19.07 3.5m-6.18 2.43L11.41 5 9.97 6l.42-1.7L9 3.24l1.75-.12.58-1.65L12 3.1l1.73.03-1.35 1.13.51 1.67m-3.3 3.61-1.16-.73-1.12.78.34-1.32-1.09-.83 1.36-.09.45-1.29.51 1.27 1.36.03-1.05.87.4 1.31M19 13.5a5.5 5.5 0 0 1-5.5 5.5c-1.22 0-2.35-.4-3.26-1.07l7.69-7.69c.67.91 1.07 2.04 1.07 3.26m-4.4 6.58 2.77-1.15-.24 3.35-2.53-2.2m4.33-2.7 1.15-2.77 2.2 2.54-3.35.23m1.15-4.96-1.14-2.78 3.34.24-2.2 2.54M9.63 18.93l2.77 1.15-2.53 2.19-.24-3.34Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="grey" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.5 2c-1.79 1.15-3 3.18-3 5.5s1.21 4.35 3.03 5.5C4.46 13 2 10.54 2 7.5A5.5 5.5 0 0 1 7.5 2m11.57 1.5 1.43 1.43L4.93 20.5 3.5 19.07 19.07 3.5m-6.18 2.43L11.41 5 9.97 6l.42-1.7L9 3.24l1.75-.12.58-1.65L12 3.1l1.73.03-1.35 1.13.51 1.67m-3.3 3.61-1.16-.73-1.12.78.34-1.32-1.09-.83 1.36-.09.45-1.29.51 1.27 1.36.03-1.05.87.4 1.31M19 13.5a5.5 5.5 0 0 1-5.5 5.5c-1.22 0-2.35-.4-3.26-1.07l7.69-7.69c.67.91 1.07 2.04 1.07 3.26m-4.4 6.58 2.77-1.15-.24 3.35-2.53-2.2m4.33-2.7 1.15-2.77 2.2 2.54-3.35.23m1.15-4.96-1.14-2.78 3.34.24-2.2 2.54M9.63 18.93l2.77 1.15-2.53 2.19-.24-3.34Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="step-algo docs" class="md-nav__button md-logo" aria-label="step-algo docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    step-algo docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch00_preface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第 0 章 &nbsp; 前言
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch01_array/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 1 章 &nbsp; 数组
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            第 1 章 &nbsp; 数组
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch01_array/array/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.1 &nbsp; 数组
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch01_array/binary_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.2 &nbsp; 二分法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch02_linkedlist/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 2 章 &nbsp; 链表
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            第 2 章 &nbsp; 链表
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch02_linkedlist/linkedlist/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.1 &nbsp; 链表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch02_linkedlist/skiplist/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.2 &nbsp; 跳表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch03_queue/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 3 章 &nbsp; 队列
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            第 3 章 &nbsp; 队列
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch03_queue/queue/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.1 &nbsp; 队列
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch04_stack/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 4 章 &nbsp; 栈
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            第 4 章 &nbsp; 栈
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch04_stack/stack/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4.1 &nbsp; 栈
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch04_stack/monotonic_stack/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4.2 &nbsp; 单调栈
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 5 章 &nbsp; 树
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            第 5 章 &nbsp; 树
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binary_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.1 &nbsp; 二叉树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binary_search_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.2 &nbsp; 二叉搜索树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../red_black_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.3 &nbsp; 红黑树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    5.4 &nbsp; 并查集
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    5.4 &nbsp; 并查集
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、什么是并查集？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、为什么要用并查集？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、如何实现并查集？
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、如何实现并查集？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-initials" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 集合初始化 Initial(S)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-unions-root1-root2" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 子集合合并 Union(S, Root1, Root2)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-finds-x" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 查找子集合 Find(S, x)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-unions-x1-x2" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4 元素合并 Union(S, X1, X2)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、路径压缩
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、按秩合并
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      总结
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      参考
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      附录
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="附录">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      完整代码
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../segment_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.5 &nbsp; 线段树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binary_index_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.6 &nbsp; 二叉索引树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../b_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.7 &nbsp; B-树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bplus_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.8 &nbsp; B+树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch06_heap/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 6 章 &nbsp; 堆
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            第 6 章 &nbsp; 堆
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch06_heap/heap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.1 &nbsp; 二叉堆
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch06_heap/index_heap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.2 &nbsp; 索引堆
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch06_heap/leftist_heap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.3 &nbsp; 左倾堆
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch06_heap/skew_heap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.4 &nbsp; 斜堆
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch07_hash/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 7 章 &nbsp; 哈希
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            第 7 章 &nbsp; 哈希
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch07_hash/hashtable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.1 &nbsp; 哈希表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch08_graph/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 8 章 &nbsp; 图
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            第 8 章 &nbsp; 图
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch09_string/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 9 章 &nbsp; 字符串
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10" id="__nav_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            第 9 章 &nbsp; 字符串
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch09_string/bf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9.1 &nbsp; BF匹配
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch09_string/rk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9.2 &nbsp; RK匹配
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch09_string/kmp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9.3 &nbsp; KMP匹配
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch10_sort/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 10 章 &nbsp; 排序
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_11" id="__nav_11_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            第 10 章 &nbsp; 排序
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/bubblesort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.1 &nbsp; 冒泡排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/selectsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.2 &nbsp; 选择排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/insertsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.3 &nbsp; 插入排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/binaryinsertsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.4 &nbsp; 二分插入排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/shellsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.5 &nbsp; 希尔排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/mergesort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.6 &nbsp; 归并排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/heapsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.7 &nbsp; 堆排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/quicksort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.8 &nbsp; 快速排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/quick3waysort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.9 &nbsp; 三向快速排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/countsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.10 &nbsp; 计数排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/bucketsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.11 &nbsp; 桶排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/radixsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.12 &nbsp; 基数排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、什么是并查集？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、为什么要用并查集？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、如何实现并查集？
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、如何实现并查集？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-initials" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 集合初始化 Initial(S)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-unions-root1-root2" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 子集合合并 Union(S, Root1, Root2)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-finds-x" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 查找子集合 Find(S, x)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-unions-x1-x2" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4 元素合并 Union(S, X1, X2)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、路径压缩
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、按秩合并
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      总结
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      参考
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      附录
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="附录">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      完整代码
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">并查集<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">一、什么是并查集？<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>并查集是一种简单的集合表示。</p>
+<p>它支持以下 3 种操作：</p>
+<ul>
+<li><code>Initial(S)</code>：将集合 S 中的所有元素初始化为一个个单元素集合</li>
+<li><code>Union(S, Root1, Root2)</code>：把集合 S 中的子集合 Root2 并入子集合 Root1 中</li>
+<li><code>Find(S, x)</code>：查找集合 S 中单元素 x 所在的子集合，并返回子集合的名字</li>
+</ul>
+<!--more-->
+
+<p>通常用树表示每个子集合，子集合的合并就是树的合并。</p>
+<p>子集合 Root2 合并到子集合 Root1，只需要把 Root2 的根节点指向 Root1 的根节点即可。</p>
+<h2 id="_3">二、为什么要用并查集？<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li>并查集主要用于解决一些元素分组的问题</li>
+<li>并查集可用于管理一系列不相交的集合，执行集合的合并以及搜索元素所在集合</li>
+</ul>
+<h2 id="_4">三、如何实现并查集？<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="31-initials">3.1 集合初始化 <code>Initial(S)</code><a class="headerlink" href="#31-initials" title="Permanent link">&para;</a></h3>
+<pre><code class="language-java">void initial (int[] s) {
+    for (int i = 0; i &lt; s.length; i++) {
+        s[i] = i;
+    }
+}
+</code></pre>
+<p>初始化后单个元素就是一个集合</p>
+<pre><code>集合 S 存储：
+
+[0, 1, 2, 3, 4]
+
+------------------------------------------
+
+集合示意图：
+ ___      ___      ___      ___      ___
+| 0 |    | 1 |    | 2 |    | 3 |    | 4 |
+</code></pre>
+<h3 id="32-unions-root1-root2">3.2 子集合合并 <code>Union(S, Root1, Root2)</code><a class="headerlink" href="#32-unions-root1-root2" title="Permanent link">&para;</a></h3>
+<pre><code class="language-java">void union(int[] s, int root1, int root2) {
+    s[root2] = root1;
+}
+</code></pre>
+<p>比如合并 <code>0</code> 和 <code>1</code> 得到子集合 <code>0</code>：</p>
+<pre><code>集合 S 存储：
+
+[0, 0, 2, 3, 4]
+
+------------------------------------------
+
+集合示意图：
+ ___      ___      ___      ___
+| 0 |    | 2 |    | 3 |    | 4 |
+  ^
+  |
+ ___
+| 1 |
+</code></pre>
+<p>再合并 <code>3</code> 和 <code>4</code> 得到子集合 <code>3</code>：</p>
+<pre><code>集合 S 存储：
+
+[0, 0, 2, 3, 3]
+
+------------------------------------------
+
+集合示意图：
+ ___      ___      ___
+| 0 |    | 2 |    | 3 |
+  ^                 ^
+  |                 |
+ ___               ___
+| 1 |             | 4 |
+</code></pre>
+<p>还可以把子集合 <code>0</code> 和子集合 <code>3</code> 也合并起来：</p>
+<pre><code>集合 S 存储：
+
+[0, 0, 2, 0, 3]
+
+------------------------------------------
+
+集合示意图：
+       ___           ___
+      | 0 |         | 2 |
+        ^
+       / \
+      /   \
+    ___   ___
+   | 1 | | 3 |
+           ^
+           |
+          ___
+         | 4 |
+</code></pre>
+<h3 id="33-finds-x">3.3 查找子集合 <code>Find(S, x)</code><a class="headerlink" href="#33-finds-x" title="Permanent link">&para;</a></h3>
+<pre><code class="language-java">int find(int[] s, int x) {
+    while (s[x] != x) {
+        x = s[x];
+    }
+    return x;
+}
+</code></pre>
+<p>比如查找 <code>4</code> 所在集合时，过程是这样的：</p>
+<pre><code>  ___________________   _____
+ |                   | |     |
+ v                   | v     |
+[0,     0,     2,     0,     3]
+
+</code></pre>
+<p>一直往上找，直到根节点为止，就能得到 <code>4</code> 所在的集合。</p>
+<h3 id="34-unions-x1-x2">3.4 元素合并 <code>Union(S, X1, X2)</code><a class="headerlink" href="#34-unions-x1-x2" title="Permanent link">&para;</a></h3>
+<p>判断两个元素是否属于同一个集合，只需要看它们的根节点是否相同即可。</p>
+<ul>
+<li>合并两个元素时，找到它们的根节点合并即可</li>
+</ul>
+<p>所以上面的子集合合并代码可以改成这样：</p>
+<pre><code class="language-java">void union(int[] s, int x1, int x2) {
+    s[find(x2)] = find(x1);
+}
+</code></pre>
+<h2 id="_5">四、路径压缩<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>简单的并查集，在某些场景下的性能是比较差的，例如：</p>
+<ul>
+<li>链条变得越来越长的时候，查找根节点也变得越来越耗时</li>
+</ul>
+<p>比如，下面查找元素 5 所在的子集合时，每次都需要经过好几个节点：</p>
+<pre><code> ___
+| 1 |
+  ^
+  |
+ ___
+| 3 |
+  ^
+  |
+ ___
+| 4 |
+  ^
+  |
+ ___
+| 5 |
+</code></pre>
+<p>在并查集链比较长的时候，每次搜索元素的根节点，都比较耗时。</p>
+<p>那怎么解决这个问题呢？</p>
+<ul>
+<li>并查集中只关注根节点，因此可以采用路径压缩，将元素直接指向根节点</li>
+</ul>
+<p>而实现的方法也很简单，就是：</p>
+<ul>
+<li>在查询时，把路径上所有节点的父节点都指向根节点</li>
+</ul>
+<p>代码上实现的话，可以采用递归，类似这样：</p>
+<pre><code class="language-java">int find(int[] s, int x) {
+    if (s[x] == x) {
+        return x;
+    } else {
+        s[x] = find(s, s[x]);
+        return s[x];
+    }
+}
+</code></pre>
+<p>相当于把上面的一条直链，变成了多叉树：</p>
+<pre><code>       ___
+      | 1 |
+        ^
+      / | \  
+     /  |  \
+    /   |   \
+ ___   ___   ___
+| 3 | | 4 | | 5 |
+</code></pre>
+<p>经过路径压缩后，就基本解决了链条过长引起的性能问题。</p>
+<h2 id="_6">五、按秩合并<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>路径压缩虽然能解决查询时链条过长的问题，但是路径压缩是在查询时才做的。</p>
+<ul>
+<li>当没有查询时，路径不会压缩，还是会出现链路很长的情况</li>
+<li>每次查询时，只压缩一条路径，其他路径的链路还是很长</li>
+</ul>
+<p>这种情况要如何避免呢？</p>
+<p>在两个子集合进行合并时，只要尽量满足：</p>
+<ul>
+<li>把简单的树往复杂的树上合并</li>
+</ul>
+<p>就能避免并查集的树深度过大，影响查询的效率。</p>
+<p>比如说，2 个子集合长这样：</p>
+<pre><code> ___               ___
+| 0 |             | 3 |
+  ^
+  |
+ ___
+| 1 |
+  ^
+  |
+ ___ 
+| 4 |
+</code></pre>
+<p>子集合的合并可分为 2 种情况：</p>
+<ol>
+<li><code>3</code> 合并到 <code>0</code>，树深度是还是 <code>2</code>，深度不变</li>
+<li><code>0</code> 合并到 <code>3</code>，树深度变成了 <code>3</code>，深度加深了</li>
+</ol>
+<p>所以肯定是把深度小的 <code>3</code> 合并到深度大的 <code>0</code> 更好一些，因为这样可以避免节点深度变得更大。</p>
+<p>那怎么知道哪个集合的深度更高呢？</p>
+<ul>
+<li>采用一个额外的数组，记录每个根节点的深度，合并子集合时同时更新</li>
+</ul>
+<p>比如说，采用数组 <code>rank</code> 记录节点深度：</p>
+<ul>
+<li>初始化时，把所有元素的 <code>rank</code>（秩）设为默认值 1</li>
+<li>合并子集合时，比较两个根节点，把 <code>rank</code> 较小合并到较大的上面</li>
+</ul>
+<p>代码实现的话就类似这样：</p>
+<p>初始化：</p>
+<pre><code class="language-java">void initial (int[] s, int[] rank) {
+    for (int i = 0; i &lt; s.length; i++) {
+        s[i] = i;
+        rank[i] = 1;
+    }
+}
+</code></pre>
+<p>合并子集合：</p>
+<pre><code class="language-java">void union(int[] s, int[] rank, int x1, int x2) {
+    int root1 = find(x1);
+    int root2 = find(x2);
+    if (rank[root1] &gt;= rank[root2]) {
+        s[root2] = root1;
+        // 两棵树深度一样的时候，合并起来会加深一层
+        if (rank[root1] == rank[root2] &amp;&amp; root1 != root2) {
+            rank[root1]++;
+        }
+    } else {
+        s[root1] = root2;
+    }
+}
+</code></pre>
+<p>两棵树深度一样的时候，合并起来会加深一层：</p>
+<pre><code> ___               ___
+| 0 |             | 3 |
+  ^                 ^
+  |                 |
+ ___               ___
+| 1 |             | 4 |
+</code></pre>
+<pre><code>       ___
+      | 0 |
+        ^
+       / \
+      /   \
+    ___   ___
+   | 1 | | 3 |
+           ^
+           |
+          ___
+         | 4 |
+</code></pre>
+<p>按秩合并和路径压缩一起用的时候，路径压缩会影响到 <code>rank</code> 值，导致它不准确。</p>
+<p>虽然 <code>rank</code> 值不准确，但是不影响 2 者结合一起用。</p>
+<h2 id="_7">总结<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>并查集是一种简单的集合表示，包括 3 种操作：</p>
+<ul>
+<li><code>Initial(S)</code>：将集合 S 中的所有元素初始化为一个个单元素集合</li>
+<li><code>Union(S, Root1, Root2)</code>：把集合 S 中的子集合 Root2 并入子集合 Root1 中</li>
+<li><code>Find(S, x)</code>：查找集合 S 中单元素 x 所在的子集合，并返回子集合的名字</li>
+</ul>
+<p>并查集的作用：</p>
+<ul>
+<li>并查集主要用于解决一些元素分组的问题</li>
+<li>并查集可用于管理一系列不相交的集合，执行集合的合并以及搜索元素所在集合</li>
+</ul>
+<p>并查集有 2 种方法优化方式：</p>
+<ul>
+<li>路径压缩：查询时压缩节点路径，直接指向根节点</li>
+<li>按秩合并：合并时，深度小的合并到深度大的树上面</li>
+</ul>
+<p>按秩合并和路径压缩一起用：</p>
+<ul>
+<li>路径压缩会影响到按秩合并的 <code>rank</code> 值，导致它不准确</li>
+<li>虽然 <code>rank</code> 值不准确了，但是不影响 2 者结合一起用</li>
+</ul>
+<h2 id="_8">参考<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>《数据结构》王道考研系列</p>
+<p>https://zhuanlan.zhihu.com/p/93647900</p>
+<p>https://blog.csdn.net/weixin_38279101/article/details/112546053</p>
+<p>https://blog.csdn.net/qq_40378034/article/details/103224445</p>
+<p>https://destiny1020.blog.csdn.net/article/details/7655764</p>
+</blockquote>
+<h2 id="_9">附录<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<h3 id="_10">完整代码<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<pre><code class="language-java">/**
+ * 并查集-路径压缩 + 按秩合并
+ */
+public class UnionFind {
+
+    /**
+     * 父节点存储
+     */
+    private int[] parent;
+    /**
+     * 节点深度
+     */
+    private int[] rank;
+
+    public UnionFind(int n) {
+        parent = new int[n];
+        rank = new int[n];
+        init(n);
+    }
+
+    /**
+     * 初始化并查集
+     *
+     * @param n 元素个数
+     */
+    private void init(int n) {
+        for (int i = 0; i &lt; n; i++) {
+            parent[i] = i;
+            rank[i] = 1;
+        }
+    }
+
+    /**
+     * 查找元素
+     *
+     * @param x 指定元素
+     * @return 元素根节点
+     */
+    public int find(int x) {
+        if (parent[x] == x) {
+            return x;
+        } else {
+            // 路径压缩，会导致 rank 有误差
+            parent[x] = find(parent[x]);
+            return parent[x];
+        }
+    }
+
+    /**
+     * 合并元素子集合
+     *
+     * @param x1 元素
+     * @param x2 元素
+     */
+    public void union(int x1, int x2) {
+        int root1 = find(x1);
+        int root2 = find(x2);
+        if (root1 == root2) {
+            return;
+        }
+
+        // 按秩合并
+        if (rank[root1] &gt; rank[root2]) {
+            parent[root2] = root1;
+        } else if (rank[root1] &lt; rank[root2]) {
+            parent[root1] = root2;
+        } else {
+            // 深度一样的时候，合并起来会加深一层
+            parent[root2] = root1;
+            rank[root1]++;
+        }
+    }
+
+}
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../red_black_tree/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 5.3 &amp;nbsp; 红黑树">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                5.3 &nbsp; 红黑树
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../segment_tree/" class="md-footer__link md-footer__link--next" aria-label="下一页: 5.5 &amp;nbsp; 线段树">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                5.5 &nbsp; 线段树
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - 2023 weijiaduo
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.code.annotate", "content.code.copy", "content.tabs.link", "content.tooltips", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c8d2eff1.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3231 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="数据结构与算法学习笔记">
+      
+      
+        <meta name="author" content="weijiaduo">
+      
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../../ch08_graph/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.12">
+    
+    
+      
+        <title>6.1   哈希表 - step-algo docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="step-algo docs" class="md-header__button md-logo" aria-label="step-algo docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            step-algo docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              6.1 &nbsp; 哈希表
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.5 2c-1.79 1.15-3 3.18-3 5.5s1.21 4.35 3.03 5.5C4.46 13 2 10.54 2 7.5A5.5 5.5 0 0 1 7.5 2m11.57 1.5 1.43 1.43L4.93 20.5 3.5 19.07 19.07 3.5m-6.18 2.43L11.41 5 9.97 6l.42-1.7L9 3.24l1.75-.12.58-1.65L12 3.1l1.73.03-1.35 1.13.51 1.67m-3.3 3.61-1.16-.73-1.12.78.34-1.32-1.09-.83 1.36-.09.45-1.29.51 1.27 1.36.03-1.05.87.4 1.31M19 13.5a5.5 5.5 0 0 1-5.5 5.5c-1.22 0-2.35-.4-3.26-1.07l7.69-7.69c.67.91 1.07 2.04 1.07 3.26m-4.4 6.58 2.77-1.15-.24 3.35-2.53-2.2m4.33-2.7 1.15-2.77 2.2 2.54-3.35.23m1.15-4.96-1.14-2.78 3.34.24-2.2 2.54M9.63 18.93l2.77 1.15-2.53 2.19-.24-3.34Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="grey" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.5 2c-1.79 1.15-3 3.18-3 5.5s1.21 4.35 3.03 5.5C4.46 13 2 10.54 2 7.5A5.5 5.5 0 0 1 7.5 2m11.57 1.5 1.43 1.43L4.93 20.5 3.5 19.07 19.07 3.5m-6.18 2.43L11.41 5 9.97 6l.42-1.7L9 3.24l1.75-.12.58-1.65L12 3.1l1.73.03-1.35 1.13.51 1.67m-3.3 3.61-1.16-.73-1.12.78.34-1.32-1.09-.83 1.36-.09.45-1.29.51 1.27 1.36.03-1.05.87.4 1.31M19 13.5a5.5 5.5 0 0 1-5.5 5.5c-1.22 0-2.35-.4-3.26-1.07l7.69-7.69c.67.91 1.07 2.04 1.07 3.26m-4.4 6.58 2.77-1.15-.24 3.35-2.53-2.2m4.33-2.7 1.15-2.77 2.2 2.54-3.35.23m1.15-4.96-1.14-2.78 3.34.24-2.2 2.54M9.63 18.93l2.77 1.15-2.53 2.19-.24-3.34Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="step-algo docs" class="md-nav__button md-logo" aria-label="step-algo docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    step-algo docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch00_preface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第 0 章 &nbsp; 前言
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch01_array/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 1 章 &nbsp; 数组
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            第 1 章 &nbsp; 数组
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch01_array/array/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.1 &nbsp; 数组
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch01_array/binary_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.2 &nbsp; 二分法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch02_linkedlist/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 2 章 &nbsp; 链表
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            第 2 章 &nbsp; 链表
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch02_linkedlist/linkedlist/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.1 &nbsp; 链表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch02_linkedlist/skiplist/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.2 &nbsp; 跳表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch03_queue/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 3 章 &nbsp; 队列
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            第 3 章 &nbsp; 队列
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch03_queue/queue/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.1 &nbsp; 队列
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch04_stack/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 4 章 &nbsp; 栈
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            第 4 章 &nbsp; 栈
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch04_stack/stack/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4.1 &nbsp; 栈
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch04_stack/monotonic_stack/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4.2 &nbsp; 单调栈
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch05_tree/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 5 章 &nbsp; 树
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            第 5 章 &nbsp; 树
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/binary_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.1 &nbsp; 二叉树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/binary_search_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.2 &nbsp; 二叉搜索树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/red_black_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.3 &nbsp; 红黑树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/union_find/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.4 &nbsp; 并查集
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/segment_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.5 &nbsp; 线段树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/binary_index_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.6 &nbsp; 二叉索引树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/b_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.7 &nbsp; B-树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/bplus_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.8 &nbsp; B+树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch06_heap/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 6 章 &nbsp; 堆
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            第 6 章 &nbsp; 堆
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch06_heap/heap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.1 &nbsp; 二叉堆
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch06_heap/index_heap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.2 &nbsp; 索引堆
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch06_heap/leftist_heap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.3 &nbsp; 左倾堆
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch06_heap/skew_heap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.4 &nbsp; 斜堆
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 7 章 &nbsp; 哈希
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            第 7 章 &nbsp; 哈希
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    6.1 &nbsp; 哈希表
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    6.1 &nbsp; 哈希表
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、什么是散列表？
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、什么是散列表？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 定义
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 例子
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、为什么要用散列表？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、如何实现散列表？
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、如何实现散列表？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 快速地址访问
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 散列设计
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 散列冲突
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4 负载扩容
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、散列函数构造
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、散列函数构造">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 直接定址法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 除留余数法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.3 数字分析法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.4 平方取中法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.5 折叠法
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、散列冲突处理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、散列冲突处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1 开放寻址法
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.1 开放寻址法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#511" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1.1 线性探测
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#512" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1.2 平方探测
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#513" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1.3 再散列
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#514" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1.4 伪随机序列
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.2 拉链法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      小结
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、散列表的性能分析
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      七、散列表的特点
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      八、散列表的应用场景
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      总结
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      参考
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      附录
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="附录">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      散列表-开放寻址法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      散列表-拉链法
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch08_graph/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 8 章 &nbsp; 图
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            第 8 章 &nbsp; 图
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch09_string/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 9 章 &nbsp; 字符串
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10" id="__nav_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            第 9 章 &nbsp; 字符串
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch09_string/bf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9.1 &nbsp; BF匹配
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch09_string/rk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9.2 &nbsp; RK匹配
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch09_string/kmp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9.3 &nbsp; KMP匹配
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch10_sort/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 10 章 &nbsp; 排序
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_11" id="__nav_11_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            第 10 章 &nbsp; 排序
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/bubblesort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.1 &nbsp; 冒泡排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/selectsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.2 &nbsp; 选择排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/insertsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.3 &nbsp; 插入排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/binaryinsertsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.4 &nbsp; 二分插入排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/shellsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.5 &nbsp; 希尔排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/mergesort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.6 &nbsp; 归并排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/heapsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.7 &nbsp; 堆排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/quicksort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.8 &nbsp; 快速排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/quick3waysort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.9 &nbsp; 三向快速排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/countsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.10 &nbsp; 计数排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/bucketsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.11 &nbsp; 桶排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/radixsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.12 &nbsp; 基数排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、什么是散列表？
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、什么是散列表？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 定义
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 例子
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、为什么要用散列表？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、如何实现散列表？
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、如何实现散列表？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 快速地址访问
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 散列设计
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 散列冲突
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4 负载扩容
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、散列函数构造
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、散列函数构造">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 直接定址法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 除留余数法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.3 数字分析法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.4 平方取中法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.5 折叠法
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、散列冲突处理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、散列冲突处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1 开放寻址法
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.1 开放寻址法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#511" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1.1 线性探测
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#512" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1.2 平方探测
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#513" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1.3 再散列
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#514" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1.4 伪随机序列
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.2 拉链法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      小结
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、散列表的性能分析
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      七、散列表的特点
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      八、散列表的应用场景
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      总结
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      参考
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      附录
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="附录">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      散列表-开放寻址法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      散列表-拉链法
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">散列表<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">一、什么是散列表？<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="11">1.1 定义<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>散列表（Hash Table），也称为哈希表，其定义如下：</p>
+<ul>
+<li>散列表是一种能够根据关键字，直接访问到值的数据结构</li>
+<li>散列表建立了关键字和存储地址之间的一种直接映射关系</li>
+</ul>
+<p>其中，关键字称为 <code>Key</code>，对应的值称为 <code>Value</code>。</p>
+<p>因此散列表也可以说是：</p>
+<!--more-->
+
+<ul>
+<li>将 <code>Key</code> 直接「映射」到一张「记录表」上，以此找到 <code>Value</code> 的地址</li>
+</ul>
+<p>其中，「映射」方式称为散列函数，存储记录的表就称为哈希表。</p>
+<p>哈希表的映射逻辑类似这样：</p>
+<pre><code>Key                    散列函数                  散列表
+
+                                                ________ 
+                                      -------&gt; | value4 |
+                                      |         ________ 
+key1   ---------                      |        |        |
+               |                      |         ________ 
+key2   ---------                      -------&gt; | value1 |
+               |                      |         ________  
+key3   --------------&gt;  hash(key)  ----------&gt; | value5 |
+               |                      |         ________
+key4   ---------                      |        |        |
+               |                      |         ________
+key5   ---------                      -------&gt; | value2 |
+                                      |         _________ 
+                                      -------&gt; | value3 |
+</code></pre>
+<p>一般来说：</p>
+<ul>
+<li>散列表底层存储结构是数组，散列函数负责将 <code>Key</code> 映射到数组索引，即 <code>Value</code> 地址</li>
+</ul>
+<p>映射的地址，取决于散列函数，不同散列函数可能会不一样。</p>
+<h3 id="12">1.2 结构<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>常见的散列表结构（数组 + 链表）如下：</p>
+<pre><code>索引   数组
+       ___ 
+ 0    |   |
+       ___        ___        ____
+ 1    | 8 | ---&gt; | 1 | ---&gt; | 22 |
+       ___ 
+ 2    | 9 |
+       ___        ____ 
+ 3    | 3 | ---&gt; | 17 |
+       ___        ____        ____        ____ 
+ 4    | 4 | ---&gt; | 32 | ---&gt; | 18 | ---&gt; | 46 |
+       ___
+ 5    |   |
+       ___ 
+ 6    | 6 |
+</code></pre>
+<p>这里的散列函数是取余 <code>key % 7</code>，例如 <code>22 % 7 = 1</code>，那么 <code>22</code> 就放在了数组索引为 <code>1</code> 的位置上。</p>
+<h3 id="13">1.3 例子<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<p>举个更具体的例子来说，手机通讯录中，联系人是按照拼音的首字母排序的，暂记为通讯录 <code>[A - Z]</code>。</p>
+<p>假如要找张三，其首字母是 <code>Z</code>，那么就能直接定位到通讯录中以 <code>Z</code> 开头的地方，再开始查找。</p>
+<p>通讯录 <code>[A - Z]</code> 实际上就是散列表，将关键字（张三），映射到地址（<code>Z</code>）。</p>
+<h2 id="_3">二、为什么要用散列表？<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>查找时，一般都是基于「比较」实现的，比如数组、链表、树等，都是遍历数据逐个「比较」，直到找到目标为止。</p>
+<ul>
+<li>对于这些基于「比较」的数据结构，查找效率取决于「比较」次数，数据量越大，性能就会越差</li>
+</ul>
+<p>因为数据量变大会导致「比较」次数变多，总耗时就会变长，所以散列表采用了另外一种方式来实现查找：</p>
+<ul>
+<li>散列表不是基于「比较」实现的，而是将键直接「映射」到数据地址上</li>
+</ul>
+<p>理想情况下，散列表的查找性能与数据量无关，不会因为数据量变大而导致性能降低，因此，</p>
+<ul>
+<li>散列表的一个主要作用就是，解决大数据量情况下，快速定位值的问题</li>
+</ul>
+<p>散列表带来的性能提升，不是凭空得来的，而是一种用空间换时间的实现方式。</p>
+<h2 id="_4">三、如何实现散列表？<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 快速地址访问<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<p>散列表是通过 <code>Key</code> 得到 <code>Value</code> 地址后，访问地址才能拿到数据。</p>
+<p>比如，<code>Key = 22</code> 通过计算得到了索引地址 <code>22 % 7 = 1</code>，但是 <code>1</code> 只是索引地址，不是数据，真正的数据是 <code>arr[1]</code>。</p>
+<p>那么如果不能通过地址快速访问到数据，那散列表就没有意义了，所以有一个基本要求必须要满足：</p>
+<ul>
+<li>散列表的实现，必须能通过映射地址快速定位到对应的数据</li>
+</ul>
+<p>而数组刚好支持通过索引进行随机访问，提供了快速访问地址数据的手段，所以才会有：</p>
+<ul>
+<li>散列表基本都是通过数组实现的，这实际上是利用了数组的随机访问特性</li>
+</ul>
+<p>当然，只要是能够快速访问地址的数据结构，都可以用到散列表里，不一定是数组，只是数组刚好满足要求了而已。</p>
+<h3 id="32">3.2 散列设计<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<p>散列就是将关键字映射到地址，所以散列的设计至关重要，它有一些基本要求：</p>
+<ul>
+<li>散列必须能够映射所有可能的关键字</li>
+<li>散列对于同一个关键字，映射地址应该保持一致</li>
+<li>散列应该尽可能的把映射地址均匀分布开来</li>
+<li>散列应该尽量简单，能够短时间计算出来</li>
+</ul>
+<p>这是散列的几个基本要求，除此之外还有：</p>
+<ul>
+<li>散列设计还要包括散列冲突的解决策略</li>
+</ul>
+<h3 id="33">3.3 散列冲突<a class="headerlink" href="#33" title="Permanent link">&para;</a></h3>
+<p>散列是将关键字映射到地址，而地址就是数组的索引，这存在一个问题：不同关键字映射的索引地址可能一样。</p>
+<ul>
+<li>因为数组空间是有限的，而关键字可能是无限的，所以不管怎么设计散列映射，都不可避免的会出现冲突</li>
+</ul>
+<p>所以，要求散列设计的时候，要同时考虑：散列冲突了怎么解决？</p>
+<p>散列冲突的处理有多种方式，可以视实际情况选择。</p>
+<h3 id="34">3.4 负载扩容<a class="headerlink" href="#34" title="Permanent link">&para;</a></h3>
+<p>当数组内的空间基本都用完时，散列冲突的概率会非常高。这个时候要怎么办？</p>
+<ul>
+<li>空间不足时，就需要对散列表的数组进行扩容</li>
+</ul>
+<p>那什么时候进行扩容呢？等到数组空间用完吗？那个时候已经太晚了，一般是在数组空间大部分都被占用时就开始扩容。</p>
+<p>如何判断空间被占用了大部分？一般是使用负载因子来判断空间的占用比例：</p>
+<ul>
+<li><code>负载因子 = 散列表中的元素 / 散列表的数组大小</code>，负载因子越大，表示空间占用比例越高</li>
+</ul>
+<p>例如，散列表数组大小是 10，元素数量是 7，那么负载因子就是 <code>7 / 10 = 0.7</code>，表示大约有 70% 的空间已经被占用了。</p>
+<p>所以，一般是根据负载因子来判断是否要数组扩容：</p>
+<ul>
+<li>当负载因子达到某个阈值时，就可以认为空间不足，需要对数组扩容了</li>
+</ul>
+<h2 id="_5">四、散列函数构造<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>散列函数，就是将关键字映射到地址的函数。可以记为：</p>
+<pre><code>Hash(key) = Addr
+</code></pre>
+<p>散列函数的构造要求，遵循的就是散列设计的要求。</p>
+<p>常见的散列函数有：</p>
+<h3 id="41">4.1 直接定址法<a class="headerlink" href="#41" title="Permanent link">&para;</a></h3>
+<p>直接取关键字的某个线性函数值，作为散列地址。</p>
+<pre><code>H(key) = a * key + b
+</code></pre>
+<p>线性映射不会造成散列冲突，适合关键字连续的情况。</p>
+<p>若是关键字不连续，则会导致空位较多，浪费空间。</p>
+<h3 id="42">4.2 除留余数法<a class="headerlink" href="#42" title="Permanent link">&para;</a></h3>
+<p>取关键字被某个不大于散列表表长 m 的数 p 除后所得的余数为散列地址。</p>
+<pre><code>H(key) = key % p
+</code></pre>
+<p>其中 <code>q &lt; m</code>。</p>
+<p>这种方式简单，最常用，但是因为对数数值取余的原因，有可能会出现散列冲突。</p>
+<p>关键在于选好 p，不同的 p 对空间的利用是不同的。</p>
+<h3 id="43">4.3 数字分析法<a class="headerlink" href="#43" title="Permanent link">&para;</a></h3>
+<p>取数码分布较为均匀的若干位作为散列地址。</p>
+<pre><code>H(key) = key &amp; mask
+</code></pre>
+<p>比如说关键字是 10 位数，类似这样的：</p>
+<pre><code>1001234567
+1002345678
+1003456789
+</code></pre>
+<p>关键字中有些数位的码字是分布不均匀的，比如前 3 位 <code>100</code> 都是一样的。</p>
+<p>这个时候就不要用 <code>100</code> 作为散列地址了，因为很容易就散列冲突了。</p>
+<p>应该取比较均匀的其他数位作为散列地址，比如这里的后 7 位。</p>
+<p>这种方法适合关键字集合已知的情况，如果关键字的分布情况变了，散列函数也需要重新构造。</p>
+<h3 id="44">4.4 平方取中法<a class="headerlink" href="#44" title="Permanent link">&para;</a></h3>
+<p>取关键字的平方值的中间几位作为散列地址。</p>
+<pre><code>H(key) = (key * key) &amp; mask
+</code></pre>
+<p>具体取多少位，视情况而定。</p>
+<p>适用于关键字每一位取值都不够均匀，或者小于散列地址所需位数的情况。</p>
+<p>这种方法得到的散列地址与关键字的每一位都有关系，使得散列地址分布比较均匀。</p>
+<h3 id="45">4.5 折叠法<a class="headerlink" href="#45" title="Permanent link">&para;</a></h3>
+<p>将关键字分割成位数相同的几部分，然后取这几部分的叠加和作为散列地址。</p>
+<pre><code>H(key) = (key &amp; mask1) | (key &amp; mask2) | (key &amp; mask3)
+
+mask2 = mask1 &lt;&lt; k, mask3 = mask2 &lt;&lt; k
+</code></pre>
+<p>适用于关键字位数较多，且每一位的数字分布大致均匀的情况。</p>
+<h2 id="_6">五、散列冲突处理<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>散列冲突是不可避免的，那一般怎么处理散列冲突呢？</p>
+<p>常见的解决方法分为 2 种：</p>
+<ul>
+<li>开放寻址法</li>
+<li>拉链法</li>
+</ul>
+<p>下面分别说明这 2 种方法。</p>
+<h3 id="51">5.1 开放寻址法<a class="headerlink" href="#51" title="Permanent link">&para;</a></h3>
+<p>开放寻址法，指的是在其他散列地址空闲的位置，插入冲突的数据。</p>
+<p>这就意味着，关键字散列到的地址，对应的数据不一定是它的，有可能是别人占用了。</p>
+<p>其数学递推公式是：</p>
+<pre><code>hi = (H(key) + di) % m
+</code></pre>
+<p>其中，i = 1,2,3...，m 表示散列表长，di 为增量序列。</p>
+<p>当选定某一增量序列后，对应的处理方法就确定了，常见的增量序列有以下几种。</p>
+<h4 id="511">5.1.1 线性探测<a class="headerlink" href="#511" title="Permanent link">&para;</a></h4>
+<p>线性探测，就是增量为 1 的序列 d = 1, 2, 3, ...</p>
+<p>探测过程就是，如果出现冲突，就按顺序查看表中下一个单元，找到第一个空闲位置（直到遍历完整张表）。</p>
+<p>比如散列函数是取余 <code>H(key) = key % 5</code>，当前数组是这样的：</p>
+<pre><code>     ___ 
+0   |   |
+     ___
+1   | 1 |
+     ___ 
+2   |   |
+     ___
+3   |   |
+     ___ 
+4   | 4 |
+</code></pre>
+<p>此时插入一个 6，<code>6 % 5 = 1</code>，对应地址是 <code>1</code>，但是此时已经有人占用了。</p>
+<p>按顺序往下找一个空位，找到了 <code>2</code> 的位置，然后插入：</p>
+<pre><code>     ___ 
+0   |   |
+     ___
+1   | 1 |
+     ___ 
+2   | 6 |
+     ___
+3   |   |
+     ___ 
+4   | 4 |
+</code></pre>
+<p>接着再插入一个 15，<code>11 % 5 = 1</code>，还是地址 <code>1</code>。</p>
+<p>按顺序往下找，直至找到了 <code>3</code>，最后放进去：</p>
+<pre><code>     ____ 
+0   |    |
+     ____
+1   | 1  |
+     ____ 
+2   | 8  |
+     ____
+3   | 11 |
+     ____ 
+4   | 4  |
+</code></pre>
+<p>这种情况下，散列地址 <code>1</code> 实际上是占用了 <code>2</code> 和 <code>3</code> 的空间。</p>
+<p>线性探测会导致同一个地址的数据聚集在一起，而且占用相邻地址的空间。</p>
+<h4 id="512">5.1.2 平方探测<a class="headerlink" href="#512" title="Permanent link">&para;</a></h4>
+<p>平方探测，就是增量为平方的序列 d = 1^2, 2^2, 3^2, 4^2, ...</p>
+<p>线性探测会导致数据堆积，所以增量步长换成了它的平方，避免堆积问题。</p>
+<p>缺点是不能探测到散列表上的所有位置，但至少能探测到一半。</p>
+<h4 id="513">5.1.3 再散列<a class="headerlink" href="#513" title="Permanent link">&para;</a></h4>
+<p>再散列，就是增量序列是用另一个散列函数生成的 <code>d = H2(key)</code>。</p>
+<p>再散列的增量序列就是：</p>
+<pre><code>d1 = H2(H(key))
+d2 = H2(d1)
+d3 = H2(d2)
+d4 = H2(d3)
+...
+</code></pre>
+<p>比如说，再散列函数是 <code>H2(d) = (4 * d + 3) % 5</code>。</p>
+<p>假如散列值地址是 <code>H(key) = 1</code>，那么它对应的增量序列就是：</p>
+<pre><code>H2(1) = (4 * 1 + 3) % 5 = 2
+H2(2) = (4 * 2 + 3) % 5 = 1
+</code></pre>
+<p>也即是，冲突探测地址分别是 <code>[1, 1 + 2, 1 + 2 + 1] = [1, 3, 2]</code>。</p>
+<p>再散列就是用额外的散列函数生成增量序列，达到寻找空位的目的。</p>
+<h4 id="514">5.1.4 伪随机序列<a class="headerlink" href="#514" title="Permanent link">&para;</a></h4>
+<p>伪随机序列，就是使用伪随机数作为增量序列。</p>
+<p>为什么是伪随机数？因为散列函数的一个要求是：</p>
+<ul>
+<li>同一个关键字，对应的地址必须相等</li>
+</ul>
+<p>如果使用了真的随机数，那么同一个关键字映射的地址就不确定了。</p>
+<p>所以只能用伪随机数。</p>
+<h3 id="52">5.2 拉链法<a class="headerlink" href="#52" title="Permanent link">&para;</a></h3>
+<p>开放寻址法，是用别的地址来存储自己地址的数据，这就很容易导致冲突。</p>
+<p>拉链法，不占用别人的空间，而是将相同地址的数据放到一条链表里。</p>
+<p>其大概结构如下：</p>
+<pre><code>     ___ 
+0   |   |
+     ___        ___        ____
+1   | 8 | ---&gt; | 1 | ---&gt; | 22 |
+     ___ 
+2   | 9 |
+     ___        ____ 
+3   | 3 | ---&gt; | 17 |
+     ___        ____        ____        ____ 
+4   | 4 | ---&gt; | 32 | ---&gt; | 18 | ---&gt; | 46 |
+     ___
+5   |   |
+</code></pre>
+<p>相同地址冲突的数据，会形成一条链表，这样就可以避免冲突的问题。</p>
+<p>拉链法适用于经常进行插入和删除的情况。</p>
+<h3 id="_7">小结<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>开放寻址法：</p>
+<ul>
+<li>使用原本的数组空间，会占用到别的地址来存放同地址的数据</li>
+<li>不能直接删除，否则会导致冲突寻址序列中断</li>
+<li>适合当数据量比较小、装载因子小的情况</li>
+</ul>
+<p>拉链法：</p>
+<ul>
+<li>新开额外的链表空间，存放同地址的数据</li>
+<li>适合存储大对象、大数据量的情况</li>
+<li>适合经常进行插入和删除的情况</li>
+</ul>
+<h2 id="_8">六、散列表的性能分析<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>散列表的查找效率取决于 3 个因素：</p>
+<ul>
+<li>散列函数：散列函数直接关系到冲突的概率，冲突概率越高，查询效率就越低</li>
+<li>处理冲突的方法：不同的处理冲突的方法，也会导致查询长度变化，从而影响查询效率</li>
+<li>负载因子：直观上看，负载因子越大，散列表越满，冲突也就也多，查找的效率也就越低</li>
+</ul>
+<p>散列表的查询性能，是实时变化的，随着数据分布情况和数据量而变化。</p>
+<p>一般来说，散列表的平均查找长度依赖于负载因子，负载因子越大，平均查找长度就越大。</p>
+<p>所以应该尽量避免负载因子过大。</p>
+<h2 id="_9">七、散列表的特点<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<ul>
+<li>查找速度快：正常情况下是 <code>O(1)</code> 的查找效率</li>
+<li>额外空间浪费：很难做到用完数组的空间，总是会有一些剩余空位</li>
+<li>数据无序：散列表是通过关键字直接映射的地址，不保证数据在数组中的顺序</li>
+<li>产生冲突：很难设计一个没有冲突的散列函数</li>
+</ul>
+<h2 id="_10">八、散列表的应用场景<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<ul>
+<li>适合大数据量下快速查找</li>
+<li>适合缓存，快速定位</li>
+</ul>
+<h2 id="_11">总结<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<p>设计散列表时，有几个关键的地方：</p>
+<ul>
+<li>散列函数的设计</li>
+<li>散列冲突的处理</li>
+<li>动态的负载扩容</li>
+</ul>
+<p>散列函数的设计要求：</p>
+<ul>
+<li>散列必须能够映射所有可能的关键字</li>
+<li>散列对于同一个关键字，映射地址应该保持一致</li>
+<li>散列应该尽可能的把映射地址均匀分布开来</li>
+<li>散列应该尽量简单，能够短时间计算出来</li>
+</ul>
+<p>散列冲突的处理：</p>
+<p>开放寻址法：</p>
+<ul>
+<li>使用原本的数组空间，会占用到别的地址来存放同地址的数据</li>
+<li>不能直接删除，否则会导致冲突寻址序列中断</li>
+<li>适合当数据量比较小、装载因子小的情况</li>
+</ul>
+<p>拉链法：</p>
+<ul>
+<li>新开额外的链表空间，存放同地址的数据</li>
+<li>适合存储大对象、大数据量的情况</li>
+<li>适合经常进行插入和删除的情况</li>
+</ul>
+<h2 id="_12">参考<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>http://data.biancheng.net/view/107.html</p>
+<p>https://zhuanlan.zhihu.com/p/537528259</p>
+<p>http://t.zoukankan.com/Yunrui-blogs-p-11967732.html</p>
+</blockquote>
+<h2 id="_13">附录<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<h3 id="-">散列表-开放寻址法<a class="headerlink" href="#-" title="Permanent link">&para;</a></h3>
+<pre><code class="language-java">/**
+ * 散列表-开放寻址法
+ * &lt;p&gt;
+ * 散列函数：折叠法 + 取余
+ * &lt;p&gt;
+ * 散列冲突：线性探测法
+ */
+public class OpenHashTable implements HashTable {
+
+    /**
+     * 散列表数组
+     */
+    Node[] table;
+    /**
+     * 元素数量
+     */
+    int size;
+    /**
+     * 负载因子
+     */
+    double factory;
+
+    static class Node {
+        final int key;
+        int value;
+        boolean deleted;
+
+        public Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    public OpenHashTable() {
+        this(16);
+    }
+
+    public OpenHashTable(int capacity) {
+        this(capacity, 0.75);
+    }
+
+    public OpenHashTable(int capacity, double factory) {
+        if (capacity &lt;= 0) {
+            capacity = 16;
+        }
+        table = new Node[capacity];
+        size = 0;
+        this.factory = factory;
+    }
+
+    @Override
+    public void put(int key, int value) {
+        boolean succeed = false;
+        int length = table.length;
+        int index = hash(key);
+        for (int i = 0; i &lt; length; i++) {
+            Node node = table[index];
+            // 插入节点
+            if (node == null || node.deleted) {
+                node = new Node(key, value);
+                table[index] = node;
+                size++;
+                succeed = true;
+                break;
+            }
+            // 更新节点
+            if (node.key == key) {
+                node.value = value;
+                succeed = true;
+                break;
+            }
+            index = conflict(index);
+        }
+
+        // 验证添加结果
+        if (!succeed) {
+            // 没有添加成功，扩容后再尝试
+            resize();
+            put(key, value);
+        } else {
+            // 添加成功后，检查是否需要扩容
+            checkResize();
+        }
+    }
+
+    @Override
+    public int remove(int key) {
+        int index = findIndex(key);
+        if (index &lt; 0) {
+            return -1;
+        }
+
+        // 只标记删除，不清除节点
+        Node node = table[index];
+        node.deleted = true;
+        size--;
+        return node.value;
+    }
+
+    @Override
+    public int get(int key) {
+        int index = findIndex(key);
+        if (index &lt; 0) {
+            return -1;
+        }
+        return table[index].value;
+    }
+
+    @Override
+    public boolean contains(int key) {
+        return findIndex(key) != -1;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    /**
+     * 查找指定key的索引位置
+     *
+     * @param key 关键字
+     * @return 对应的索引/-1表示不存在
+     */
+    protected int findIndex(int key) {
+        int length = table.length;
+        int index = hash(key);
+        for (int i = 0; i &lt; length; i++) {
+            Node node = table[index];
+            if (node == null) {
+                return -1;
+            }
+            // key 值存在，且没有删除标记
+            if (node.key == key &amp;&amp; !node.deleted) {
+                return index;
+            }
+            index = conflict(index);
+        }
+        return -1;
+    }
+
+    /**
+     * 散列函数
+     * &lt;p&gt;
+     * 关键字低 16 位和高 16 位进行异或运算，然后取余
+     *
+     * @param key 关键字
+     * @return 散列地址
+     */
+    protected int hash(int key) {
+        return ((key ^ (key &gt;&gt;&gt; 16)) &amp; 0xFFFF) % table.length;
+    }
+
+    /**
+     * 散列冲突的下一个序列值
+     * &lt;p&gt;
+     * 线性探测法
+     *
+     * @param index 索引
+     * @return 冲突的下一个索引
+     */
+    protected int conflict(int index) {
+        return (index + 1) % table.length;
+    }
+
+    /**
+     * 检查并进行数组扩容
+     */
+    protected void checkResize() {
+        // 大于负载因子时，进行扩容
+        if (1.0 * size / table.length &gt; factory) {
+            resize();
+        }
+    }
+
+    /**
+     * 动态扩容
+     */
+    protected synchronized void resize() {
+        // 数组进行 2 倍扩容
+        Node[] oldTable =  table;
+        int newLength = oldTable.length &lt;&lt; 1;
+        table = new Node[newLength];
+
+        // 重新映射数组元素
+        for (Node node : oldTable) {
+            if (node.deleted) {
+                continue;
+            }
+            int index = hash(node.key);
+            while (table[index] != null) {
+                index = conflict(index);
+            }
+            table[index] = node;
+        }
+    }
+
+}
+</code></pre>
+<h3 id="-_1">散列表-拉链法<a class="headerlink" href="#-_1" title="Permanent link">&para;</a></h3>
+<pre><code class="language-java">/**
+ * 散列表-拉链法
+ * &lt;p&gt;
+ * 散列函数：折叠法 + 取余
+ * &lt;p&gt;
+ * 散列冲突：双向拉链法
+ */
+public class LinkedHashTable implements HashTable {
+
+    /**
+     * 散列表数组
+     */
+    Node[] table;
+    /**
+     * 元素数量
+     */
+    int size;
+    /**
+     * 负载因子
+     */
+    double factory;
+
+    static class Node {
+        final int key;
+        int value;
+
+        Node prev;
+        Node next;
+
+        public Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    public LinkedHashTable() {
+        this(16);
+    }
+
+    public LinkedHashTable(int capacity) {
+        this(capacity, 0.75);
+    }
+
+    public LinkedHashTable(int capacity, double factory) {
+        if (capacity &lt;= 0) {
+            capacity = 16;
+        }
+        table = new Node[capacity];
+        size = 0;
+        this.factory = factory;
+    }
+
+    @Override
+    public void put(int key, int value) {
+        int index = hash(key);
+        Node head = table[index];
+        if (head == null) {
+            // 数组链表头节点
+            table[index] = new Node(key, value);
+        } else {
+            // 查找 key 值是否存在
+            Node node = head, prev = null;
+            while (node != null &amp;&amp; node.key != key) {
+                prev = node;
+                node = node.next;
+            }
+
+            // 更新节点
+            if (node != null) {
+                node.value = value;
+                return;
+            }
+
+            // 追加节点
+            node = new Node(key, value);
+            prev.next = node;
+            node.prev = prev;
+        }
+        size++;
+
+        // 检查是否需要扩容
+        checkResize();
+    }
+
+    @Override
+    public int remove(int key) {
+        int index = hash(key);
+        Node head = table[index];
+        if (head == null) {
+            return -1;
+        }
+
+        // 查找 key 的节点
+        Node node = head;
+        while (node != null &amp;&amp; node.key != key) {
+            node = node.next;
+        }
+        if (node == null) {
+            return -1;
+        }
+
+        // 移除链表节点
+        if (node.prev == null) {
+            // 数组链表头节点
+            table[index] = node.next;
+            node.next = null;
+        } else if (node.next == null) {
+            // 链表尾节点
+            node.prev.next = null;
+            node.prev = null;
+        } else {
+            // 链表中间节点
+            node.next.prev = node.prev;
+            node.prev.next = node.next;
+            node.prev = node.next = null;
+        }
+
+        size--;
+        return node.value;
+    }
+
+    @Override
+    public int get(int key) {
+        Node node = find(key);
+        if (node == null) {
+            return -1;
+        }
+        return node.value;
+    }
+
+    @Override
+    public boolean contains(int key) {
+        return find(key) != null;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    /**
+     * 查找指定key的索引位置
+     *
+     * @param key 关键字
+     * @return 对应的索引/-1表示不存在
+     */
+    protected Node find(int key) {
+        int index = hash(key);
+        Node node = table[index];
+        if (node == null) {
+            return null;
+        }
+        while (node != null &amp;&amp; node.key != key) {
+            node = node.next;
+        }
+        return node;
+    }
+
+    /**
+     * 散列函数
+     * &lt;p&gt;
+     * 关键字低 16 位和高 16 位进行异或运算，然后取余
+     *
+     * @param key 关键字
+     * @return 散列地址
+     */
+    protected int hash(int key) {
+        return ((key ^ (key &gt;&gt;&gt; 16)) &amp; 0xFFFF) % table.length;
+    }
+
+    /**
+     * 检查并进行数组扩容
+     */
+    protected void checkResize() {
+        // 大于负载因子时，进行扩容
+        if (1.0 * size / table.length &gt; factory) {
+            resize();
+        }
+    }
+
+    /**
+     * 动态扩容
+     */
+    protected synchronized void resize() {
+        // 数组进行 2 倍扩容
+        Node[] oldTable = table;
+        int newLength = oldTable.length &lt;&lt; 1;
+        table = new Node[newLength];
+
+        // 重新映射数组元素
+        for (Node head : oldTable) {
+            for (Node node = head; node != null; ) {
+                Node next = node.next;
+                // 从旧链表断开
+                node.prev = node.next = null;
+                // 连接到新链表
+                int index = hash(node.key);
+                if (table[index] == null) {
+                    // 链表头节点
+                    table[index] = node;
+                } else {
+                    // 添加到链表尾部
+                    Node tail = table[index];
+                    while (tail.next != null) {
+                        tail = tail.next;
+                    }
+                    tail.next = node;
+                    node.prev = tail;
+                }
+                node = next;
+            }
+        }
+    }
+
+}
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="上一页: 哈希">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                哈希
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../ch08_graph/" class="md-footer__link md-footer__link--next" aria-label="下一页: 图">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                图
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - 2023 weijiaduo
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.code.annotate", "content.code.copy", "content.tabs.link", "content.tooltips", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c8d2eff1.min.js"></script>
+      
+    
+  </body>
+</html>

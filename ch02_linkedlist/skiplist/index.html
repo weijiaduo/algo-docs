@@ -1,0 +1,3231 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="数据结构与算法学习笔记">
+      
+      
+        <meta name="author" content="weijiaduo">
+      
+      
+      
+        <link rel="prev" href="../linkedlist/">
+      
+      
+        <link rel="next" href="../../ch03_queue/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.12">
+    
+    
+      
+        <title>2.2   跳表 - step-algo docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="step-algo docs" class="md-header__button md-logo" aria-label="step-algo docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            step-algo docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.2 &nbsp; 跳表
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.5 2c-1.79 1.15-3 3.18-3 5.5s1.21 4.35 3.03 5.5C4.46 13 2 10.54 2 7.5A5.5 5.5 0 0 1 7.5 2m11.57 1.5 1.43 1.43L4.93 20.5 3.5 19.07 19.07 3.5m-6.18 2.43L11.41 5 9.97 6l.42-1.7L9 3.24l1.75-.12.58-1.65L12 3.1l1.73.03-1.35 1.13.51 1.67m-3.3 3.61-1.16-.73-1.12.78.34-1.32-1.09-.83 1.36-.09.45-1.29.51 1.27 1.36.03-1.05.87.4 1.31M19 13.5a5.5 5.5 0 0 1-5.5 5.5c-1.22 0-2.35-.4-3.26-1.07l7.69-7.69c.67.91 1.07 2.04 1.07 3.26m-4.4 6.58 2.77-1.15-.24 3.35-2.53-2.2m4.33-2.7 1.15-2.77 2.2 2.54-3.35.23m1.15-4.96-1.14-2.78 3.34.24-2.2 2.54M9.63 18.93l2.77 1.15-2.53 2.19-.24-3.34Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="grey" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.5 2c-1.79 1.15-3 3.18-3 5.5s1.21 4.35 3.03 5.5C4.46 13 2 10.54 2 7.5A5.5 5.5 0 0 1 7.5 2m11.57 1.5 1.43 1.43L4.93 20.5 3.5 19.07 19.07 3.5m-6.18 2.43L11.41 5 9.97 6l.42-1.7L9 3.24l1.75-.12.58-1.65L12 3.1l1.73.03-1.35 1.13.51 1.67m-3.3 3.61-1.16-.73-1.12.78.34-1.32-1.09-.83 1.36-.09.45-1.29.51 1.27 1.36.03-1.05.87.4 1.31M19 13.5a5.5 5.5 0 0 1-5.5 5.5c-1.22 0-2.35-.4-3.26-1.07l7.69-7.69c.67.91 1.07 2.04 1.07 3.26m-4.4 6.58 2.77-1.15-.24 3.35-2.53-2.2m4.33-2.7 1.15-2.77 2.2 2.54-3.35.23m1.15-4.96-1.14-2.78 3.34.24-2.2 2.54M9.63 18.93l2.77 1.15-2.53 2.19-.24-3.34Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="step-algo docs" class="md-nav__button md-logo" aria-label="step-algo docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    step-algo docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch00_preface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第 0 章 &nbsp; 前言
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch01_array/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 1 章 &nbsp; 数组
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            第 1 章 &nbsp; 数组
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch01_array/array/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.1 &nbsp; 数组
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch01_array/binary_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.2 &nbsp; 二分法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 2 章 &nbsp; 链表
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            第 2 章 &nbsp; 链表
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linkedlist/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.1 &nbsp; 链表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2.2 &nbsp; 跳表
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    2.2 &nbsp; 跳表
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、什么是跳表？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、为什么要用跳表？
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、为什么要用跳表？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 引入背景
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 算法分析
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、跳表如何实现？
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、跳表如何实现？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 跳表的定义
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 跳表的定义">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#311" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1.1 结构定义
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1.2 接口定义
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#313" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1.3 链式跳表的定义
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 跳表的搜索
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 跳表的搜索">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2.1 代码实现
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2.2 结构示意
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 跳表的插入
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 跳表的插入">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#331" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3.1 代码实现
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#332" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3.2 结构示意
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#333" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3.3 提升层级
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4 跳表的删除
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 跳表的删除">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#341" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4.1 代码实现
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#342" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4.2 结构示意
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#343" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4.3 降低层级
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、跳表的应用场景
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      参考
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      附录
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="附录">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      跳表接口
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      链表实现
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      数组实现
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch03_queue/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 3 章 &nbsp; 队列
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            第 3 章 &nbsp; 队列
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch03_queue/queue/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.1 &nbsp; 队列
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch04_stack/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 4 章 &nbsp; 栈
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            第 4 章 &nbsp; 栈
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch04_stack/stack/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4.1 &nbsp; 栈
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch04_stack/monotonic_stack/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4.2 &nbsp; 单调栈
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch05_tree/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 5 章 &nbsp; 树
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            第 5 章 &nbsp; 树
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/binary_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.1 &nbsp; 二叉树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/binary_search_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.2 &nbsp; 二叉搜索树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/red_black_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.3 &nbsp; 红黑树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/union_find/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.4 &nbsp; 并查集
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/segment_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.5 &nbsp; 线段树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/binary_index_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.6 &nbsp; 二叉索引树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/b_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.7 &nbsp; B-树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch05_tree/bplus_tree/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.8 &nbsp; B+树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch06_heap/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 6 章 &nbsp; 堆
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            第 6 章 &nbsp; 堆
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch06_heap/heap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.1 &nbsp; 二叉堆
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch06_heap/index_heap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.2 &nbsp; 索引堆
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch06_heap/leftist_heap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.3 &nbsp; 左倾堆
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch06_heap/skew_heap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.4 &nbsp; 斜堆
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch07_hash/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 7 章 &nbsp; 哈希
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            第 7 章 &nbsp; 哈希
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch07_hash/hashtable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.1 &nbsp; 哈希表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch08_graph/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 8 章 &nbsp; 图
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            第 8 章 &nbsp; 图
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch09_string/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 9 章 &nbsp; 字符串
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10" id="__nav_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            第 9 章 &nbsp; 字符串
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch09_string/bf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9.1 &nbsp; BF匹配
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch09_string/rk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9.2 &nbsp; RK匹配
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch09_string/kmp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9.3 &nbsp; KMP匹配
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ch10_sort/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    第 10 章 &nbsp; 排序
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_11" id="__nav_11_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            第 10 章 &nbsp; 排序
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/bubblesort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.1 &nbsp; 冒泡排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/selectsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.2 &nbsp; 选择排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/insertsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.3 &nbsp; 插入排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/binaryinsertsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.4 &nbsp; 二分插入排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/shellsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.5 &nbsp; 希尔排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/mergesort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.6 &nbsp; 归并排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/heapsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.7 &nbsp; 堆排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/quicksort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.8 &nbsp; 快速排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/quick3waysort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.9 &nbsp; 三向快速排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/countsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.10 &nbsp; 计数排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/bucketsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.11 &nbsp; 桶排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ch10_sort/radixsort/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10.12 &nbsp; 基数排序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、什么是跳表？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、为什么要用跳表？
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、为什么要用跳表？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 引入背景
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 算法分析
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、跳表如何实现？
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、跳表如何实现？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 跳表的定义
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 跳表的定义">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#311" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1.1 结构定义
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1.2 接口定义
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#313" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1.3 链式跳表的定义
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 跳表的搜索
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 跳表的搜索">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2.1 代码实现
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2.2 结构示意
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 跳表的插入
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 跳表的插入">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#331" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3.1 代码实现
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#332" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3.2 结构示意
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#333" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3.3 提升层级
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4 跳表的删除
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 跳表的删除">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#341" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4.1 代码实现
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#342" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4.2 结构示意
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#343" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4.3 降低层级
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、跳表的应用场景
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      参考
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      附录
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="附录">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      跳表接口
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      链表实现
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      数组实现
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">跳表<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">一、什么是跳表？<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>跳表，又叫做跳跃表、跳跃列表。</p>
+<ul>
+<li>是一种对有序链式线性表的优化</li>
+<li>在原始链表的基础上添加了多级索引链表</li>
+<li>分为多层，从下往上分别是原始链表、一级索引、二级索引...</li>
+<li>搜索时从上往下，实现了类似“二分查找”的功能</li>
+</ul>
+<!--more-->
+
+<p>它的结构大概是这样的：</p>
+<pre><code> ___                                 ___
+| 1 | ----------------------------&gt; | 5 |                -- 二级索引
+  |                                   |
+ ___               ___               ___
+| 1 | ----------&gt; | 3 | ----------&gt; | 5 |                -- 一级索引
+  |                 |                 |
+ ___      ___      ___      ___      ___      ___
+| 1 | -&gt; | 2 | -&gt; | 3 | -&gt; | 4 | -&gt; | 5 | -&gt; | 6 |       -- 原始链表
+</code></pre>
+<p>跳表就是对有序链表的一种优化，通过添加多级索引来提升性能。</p>
+<p>跳表本质上是一种利用空间来换时间的数据结构。</p>
+<h2 id="_3">二、为什么要用跳表？<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="21">2.1 引入背景<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p>对于链表来说，查找某个值，只能通过遍历的方式实现，时间复杂度是 <code>O(n)</code>。</p>
+<p>即使链表是有序的，依旧也只能是从头到尾遍历，完全没有用到数据的有序性。</p>
+<pre><code> ___      ___      ___      ___      ___      ___
+| 1 | -&gt; | 2 | -&gt; | 3 | -&gt; | 4 | -&gt; | 5 | -&gt; | 6 |
+</code></pre>
+<p>在这种情况下，有没有办法用到链表的有序性？</p>
+<ul>
+<li>给链表建立索引，方便快速定位数据的区间范围</li>
+</ul>
+<p>比如说，链表的每2个节点就提取出一个索引节点：</p>
+<pre><code> ___               ___               ___
+| 1 | ----------&gt; | 3 | ----------&gt; | 5 |                -- 索引
+  |                 |                 |
+ ___      ___      ___      ___      ___      ___
+| 1 | -&gt; | 2 | -&gt; | 3 | -&gt; | 4 | -&gt; | 5 | -&gt; | 6 |       -- 原始链表
+</code></pre>
+<p>通过索引先快速定位到区间 <code>[1, 3]</code>、<code>[3, 5]</code> 以及 <code>[5, +]</code>，缩小范围，再小范围遍历搜索。</p>
+<p>比如说，查找数值 4：</p>
+<ol>
+<li>首先在索引层遍历判断，发现 4 是在区间 <code>[3, 5]</code> 内的</li>
+<li>然后找到了原始链表的 3，再从 3 开始往右遍历，直到找到 4</li>
+</ol>
+<p>4 的搜索链路就是：<code>1 -&gt; 3 -&gt; 4</code>，这定位速度就比遍历快多了。</p>
+<p>有时候建第一层索引后，遍历范围还是很大（第一层索引的节点数量是 n/2）。</p>
+<p>这个时候还可以再往上多建几层索引：</p>
+<pre><code> ___                                 ___
+| 1 | ----------------------------&gt; | 5 |                -- 二级索引
+  |                                   |
+ ___               ___               ___
+| 1 | ----------&gt; | 3 | ----------&gt; | 5 |                -- 一级索引
+  |                 |                 |
+ ___      ___      ___      ___      ___      ___
+| 1 | -&gt; | 2 | -&gt; | 3 | -&gt; | 4 | -&gt; | 5 | -&gt; | 6 |       -- 原始链表
+</code></pre>
+<p>这种在原始链表上建多层索引，实现快速查找的数据结构，就是跳表。</p>
+<h3 id="22">2.2 算法分析<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p>原始有序链表的算法复杂度是：</p>
+<ul>
+<li>搜索：时间 <code>O(n)</code>，空间 <code>O(1)</code></li>
+<li>删除：时间 <code>O(n)</code>，空间 <code>O(1)</code></li>
+<li>插入：时间 <code>O(n)</code>，空间 <code>O(1)</code></li>
+</ul>
+<p>跳表的算法复杂度如何呢？以 2 个节点 1 个索引的跳表为例。</p>
+<p>1）空间复杂度</p>
+<p>跳表的多层索引，从下往上数的话，节点数量分别是：</p>
+<pre><code>n/2, n/4, n/8, ..., 2
+</code></pre>
+<p>总共是 <code>n/2 + n/4 + ... + 2 = n - 2</code>，也就是说：</p>
+<ul>
+<li>跳表结构本身的空间复杂度是 <code>O(n)</code></li>
+</ul>
+<p>2）时间复杂度</p>
+<p>根据上面的结构，跳表的层级数量很容易知道：</p>
+<ul>
+<li>跳表的索引层级数量是 <code>logn</code></li>
+</ul>
+<p>链表的插入和删除，实际上是依赖于搜索，所以只要分析搜索的时间复杂度即可。</p>
+<p>因为每 2 个节点对应 1 个索引节点，所以每一层的搜索节点数量不会超过 3。</p>
+<p>比如上一层索引确定了区间 <code>[3, 5]</code>，那么往下一层搜索，搜索只能是 <code>3,4,5</code>。</p>
+<p>因此跳表的时间复杂度，依赖于每层遍历的节点数量：</p>
+<ul>
+<li>搜索：时间 <code>O(m * logn)</code></li>
+<li>删除：时间 <code>O(m * logn)</code></li>
+<li>插入：时间 <code>O(m * logn)</code></li>
+</ul>
+<p>其中 m 是每层最多遍历的节点数量。</p>
+<p>跳表将原始链表的时间复杂度从 <code>O(n)</code> 提升到了 <code>O(logn)</code> 级别。</p>
+<p>当然，这是利用空间换时间才得到的，空间消耗变多了。</p>
+<h2 id="_4">三、跳表如何实现？<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>跳表的实现方式可以分为2种：</p>
+<ul>
+<li>数组实现：由一个数组实现，数组内部包含多层索引指针</li>
+<li>链表实现：有多条链表实现，每条链表一层索引</li>
+</ul>
+<p>它们的区别只在于底层存储不同，对外是一致的。</p>
+<p>下面以链表实现为例，说明跳表的实现。</p>
+<h3 id="31">3.1 跳表的定义<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<h4 id="311">3.1.1 结构定义<a class="headerlink" href="#311" title="Permanent link">&para;</a></h4>
+<p>为了减少代码中的判空，采用了一个哨兵头节点，所以实际的跳表结构是这样的：</p>
+<pre><code>head
+ ___
+|   | ---------------------------------------------------------&gt; null
+  |
+ ___      ___                                 ___
+|   | -&gt; | 1 | ----------------------------&gt; | 5 | ------------&gt; null
+  |        |                                   |
+ ___      ___               ___               ___
+|   | -&gt; | 1 | ----------&gt; | 3 | ----------&gt; | 5 | ------------&gt; null
+  |        |                 |                 |
+ ___      ___      ___      ___      ___      ___      ___
+|   | -&gt; | 1 | -&gt; | 2 | -&gt; | 3 | -&gt; | 4 | -&gt; | 5 | -&gt; | 6 | ---&gt; null
+</code></pre>
+<p>顶层的 <code>head</code> 节点单独一层，并且这一层只有它一个非空节点。</p>
+<h4 id="312">3.1.2 接口定义<a class="headerlink" href="#312" title="Permanent link">&para;</a></h4>
+<pre><code class="language-java">public interface SkipList&lt;T extends Comparable&lt;T&gt;&gt; {
+
+    /**
+     * 搜索指定值是否存在
+     *
+     * @param value 指定值
+     * @return true存在/false不存在
+     */
+    boolean search(T value);
+
+    /**
+     * 添加新值
+     *
+     * @param value 新值
+     */
+    void add(T value);
+
+    /**
+     * 删除指定值
+     *
+     * @param value 指定值
+     * @return true删除成功/false删除失败
+     */
+    boolean erase(T value);
+
+}
+</code></pre>
+<h4 id="313">3.1.3 链式跳表的定义<a class="headerlink" href="#313" title="Permanent link">&para;</a></h4>
+<pre><code class="language-java">public class LinkedSkipList&lt;T extends Comparable&lt;T&gt;&gt; implements SkipList&lt;T&gt; {
+
+    class Node {
+        // 节点值
+        T value;
+        // 同一层的右侧节点指针
+        Node right;
+        // 下一层的同值节点指针
+        Node down;
+
+        public Node(T value, Node right, Node down) {
+            this.value = value;
+            this.right = right;
+            this.down = down;
+        }
+    }
+
+}
+</code></pre>
+<h3 id="32">3.2 跳表的搜索<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<h4 id="321">3.2.1 代码实现<a class="headerlink" href="#321" title="Permanent link">&para;</a></h4>
+<p>跳表的搜索，就是从顶层的索引开始，一层一层往下找，直到找对对应的节点为止。</p>
+<pre><code class="language-java">public boolean search(T value) {
+    Node p = head, q = null;
+    // 从上往下一直找，直到最底层的原始链表为止
+    while (p != null) {
+        // 在当前层遍历搜索，直到找到 value 所在区间
+        while (p.right != null &amp;&amp; value.compareTo(p.right.value) &gt; 0) {
+            p = p.right;
+        }
+        // 搜索下一层
+        q = p;
+        p = p.down;
+    }
+    // 验证节点值是否相等
+    return q != null &amp;&amp; q.right != null &amp;&amp; q.right.value.equals(value);
+}
+</code></pre>
+<h4 id="322">3.2.2 结构示意<a class="headerlink" href="#322" title="Permanent link">&para;</a></h4>
+<p>搜索过程就类似下面这样（暂时忽略其他线）：</p>
+<pre><code>head
+ ___
+|   |
+  |
+ ___      ___                                 ___
+|   | -&gt; | 1 |                               | 5 |
+           |                                    
+ ___      ___               ___               ___
+|   |    | 1 | ----------&gt; | 3 |             | 5 |
+                             |                  
+ ___      ___      ___      ___      ___      ___      ___
+|   |    | 1 |    | 2 |    | 3 | -&gt; | 4 |    | 5 |    | 6 |
+</code></pre>
+<p>很简单，就是一层一层找符合范围的区间，直到最底层的原始链表。</p>
+<h3 id="33">3.3 跳表的插入<a class="headerlink" href="#33" title="Permanent link">&para;</a></h3>
+<h4 id="331">3.3.1 代码实现<a class="headerlink" href="#331" title="Permanent link">&para;</a></h4>
+<p>插入节点，除了要知道插入点的位置，还要知道上一层跳到下一层的转折节点。</p>
+<p>因为插入节点，不仅仅是插入最底层，上面的索引层也需要一起更新。</p>
+<pre><code class="language-java">/**
+ * 查找指定值的前置路径
+ *
+ * @param value 指定值
+ * @return 前置路径
+ */
+private List&lt;Node&gt; findProcessors(T value) {
+    Deque&lt;Node&gt; stack = new ArrayDeque&lt;&gt;();
+    Node p = head;
+    // 从上往下一直找，直到最底层的原始链表为止
+    while (p != null) {
+        // 在当前层遍历搜索，直到找到 value 所在区间
+        while (p.right != null &amp;&amp; value.compareTo(p.right.value) &gt; 0) {
+            p = p.right;
+        }
+        // 记录上一层节点
+        stack.push(p);
+        // 搜索下一层
+        p = p.down;
+    }
+
+    // 路径是倒序摆放的，最接近值 value 的在索引 0 的位置
+    List&lt;Node&gt; path = new ArrayList&lt;&gt;(stack.size());
+    while (!stack.isEmpty()) {
+        path.add(stack.pop());
+    }
+    return path;
+}
+</code></pre>
+<p>查找返回的是目标节点的前置路径：</p>
+<ul>
+<li>前置路径是搜索过程中上一层跳到下一层的那个转折节点列表</li>
+</ul>
+<p>比如上面搜索 4 时，搜索路径是 <code>1-&gt;3-&gt;4</code>，那么得到的前置路径就是 <code>[3, 1]</code>。</p>
+<p>为什么前置路径是倒序的？</p>
+<ul>
+<li>因为插入节点是从下往上插入的，为了方便就倒序返回了</li>
+</ul>
+<p>找到前置路径后，就可以准备插入节点了：</p>
+<pre><code class="language-java">public void add(T value) {
+    List&lt;Node&gt; processors = findProcessors(value);
+    int levels = processors.size();
+
+    Node newNode = null;
+    boolean insertUp = true;
+    for (int i = 0; i &lt; levels &amp;&amp; insertUp; i++) {
+        Node processor = processors.get(i);
+        // 新节点指向下一层的同值节点
+        newNode = new Node(value, processor.right, newNode);
+        // 在当前层插入新节点
+        processor.right = newNode;
+
+        // 是否要继续往上一层插入节点
+        insertUp = random.nextDouble() &lt; FACTOR;
+    }
+
+    // 更新层级
+    if (insertUp) {
+        levelUp();
+    }
+}
+</code></pre>
+<h4 id="332">3.3.2 结构示意<a class="headerlink" href="#332" title="Permanent link">&para;</a></h4>
+<p>比如插入前跳表的结构是这样的：</p>
+<pre><code>head
+ ___
+|   | ---------------------------------------------------------&gt; null
+  |
+ ___      ___                                 ___
+|   | -&gt; | 1 | ----------------------------&gt; | 5 | ------------&gt; null
+  |        |                                   |
+ ___      ___                                 ___
+|   | -&gt; | 1 | ----------------------------&gt; | 5 | ------------&gt; null
+  |        |                                   |
+ ___      ___      ___               ___      ___      ___
+|   | -&gt; | 1 | -&gt; | 2 | ----------&gt; | 4 | -&gt; | 5 | -&gt; | 6 | ---&gt; null
+</code></pre>
+<p>此时插入一个 3，插入过程是从下往上的：</p>
+<p>1）第一次插入</p>
+<pre><code>head
+ ___
+|   | ---------------------------------------------------------&gt; null
+  |
+ ___      ___                                 ___
+|   | -&gt; | 1 | ----------------------------&gt; | 5 | ------------&gt; null
+  |        |                                   |
+ ___      ___                                 ___
+|   | -&gt; | 1 | ----------------------------&gt; | 5 | ------------&gt; null
+  |        |                                   |
+ ___      ___      ___      ___      ___      ___      ___
+|   | -&gt; | 1 | -&gt; | 2 | -&gt; | 3 | -&gt; | 4 | -&gt; | 5 | -&gt; | 6 | ---&gt; null
+</code></pre>
+<p>2）第二次插入</p>
+<pre><code>head
+ ___
+|   | ---------------------------------------------------------&gt; null
+  |
+ ___      ___                                 ___
+|   | -&gt; | 1 | ----------------------------&gt; | 5 | ------------&gt; null
+  |        |                                   |
+ ___      ___               ___               ___
+|   | -&gt; | 1 | ----------&gt; | 3 | ----------&gt; | 5 | ------------&gt; null
+  |        |                 |                 |
+ ___      ___      ___      ___      ___      ___      ___
+|   | -&gt; | 1 | -&gt; | 2 | -&gt; | 3 | -&gt; | 4 | -&gt; | 5 | -&gt; | 6 | ---&gt; null
+</code></pre>
+<p>至于需要插入多少层，这个是通过随机数控制的。</p>
+<p>采用了随机数 <code>random.nextDouble() &lt; FACTOR</code>，来判断要不要往上一层插入节点。</p>
+<p>为什么采用随机数？</p>
+<ul>
+<li>为了减少算法代码的复杂度</li>
+<li>同时又尽量确保跳表的结构平衡</li>
+</ul>
+<p>跳表本身代码就比较简单，如果为了维持结构而引入其他复杂算法，显得得不偿失。</p>
+<p>随机数就很合适，使用不复杂，而且能大概率保证跳表结构不会严重退化。</p>
+<h4 id="333">3.3.3 提升层级<a class="headerlink" href="#333" title="Permanent link">&para;</a></h4>
+<p>如果节点被插入到了顶层，这个时候需要提升整个跳表的层级。</p>
+<p>比如 3 节点被插入到顶层后，跳表结构变成了这样：</p>
+<pre><code>head
+ ___                        ___
+|   | -------------------&gt; | 3 | ------------------------------&gt; null
+  |
+ ___      ___               ___               ___
+|   | -&gt; | 1 | ----------&gt; | 3 | ----------&gt; | 5 | ------------&gt; null
+  |        |                 |                 |
+ ___      ___               ___               ___
+|   | -&gt; | 1 | ----------&gt; | 3 | ----------&gt; | 5 | ------------&gt; null
+  |        |                 |                 |
+ ___      ___      ___      ___      ___      ___      ___
+|   | -&gt; | 1 | -&gt; | 2 | -&gt; | 3 | -&gt; | 4 | -&gt; | 5 | -&gt; | 6 | ---&gt; null
+</code></pre>
+<p>为了维持跳表头节点在单独一层的结构，就需要提升层级：</p>
+<pre><code class="language-java">/**
+ * 提升层级
+ */
+private void levelUp() {
+    // 最上层只有一个头节点
+    head = new Node(null, null, head);
+}
+</code></pre>
+<p>提升层级后，跳表的结构就恢复正常了：</p>
+<pre><code>head
+ ___
+|   | ---------------------------------------------------------&gt; null
+  |
+ ___                        ___
+|   | -------------------&gt; | 3 | ------------------------------&gt; null
+  |
+ ___      ___               ___               ___
+|   | -&gt; | 1 | ----------&gt; | 3 | ----------&gt; | 5 | ------------&gt; null
+  |        |                 |                 |
+ ___      ___               ___               ___
+|   | -&gt; | 1 | ----------&gt; | 3 | ----------&gt; | 5 | ------------&gt; null
+  |        |                 |                 |
+ ___      ___      ___      ___      ___      ___      ___
+|   | -&gt; | 1 | -&gt; | 2 | -&gt; | 3 | -&gt; | 4 | -&gt; | 5 | -&gt; | 6 | ---&gt; null
+</code></pre>
+<h3 id="34">3.4 跳表的删除<a class="headerlink" href="#34" title="Permanent link">&para;</a></h3>
+<h4 id="341">3.4.1 代码实现<a class="headerlink" href="#341" title="Permanent link">&para;</a></h4>
+<p>删除和插入过程是一样的，都是先找到前置路径后，再处理节点：</p>
+<pre><code class="language-java">public boolean erase(T value) {
+    List&lt;Node&gt; processors = findProcessors(value);
+
+    // 验证删除节点是否存在，没有找到则直接返回
+    Node target = processors.get(0).right;
+    if (target == null || !value.equals(target.value)) {
+        return false;
+    }
+
+    // 从下往上，逐层删除指定节点
+    for (Node processor : processors) {
+        // 指定 value 值的节点在每一层都删完了，就跳出循环
+        Node delNode = processor.right;
+        if (delNode == null || !delNode.value.equals(value)) {
+            break;
+        }
+        processor.right = delNode.right;
+    }
+
+    // 更新层级
+    levelDown();
+
+    return true;
+}
+</code></pre>
+<h4 id="342">3.4.2 结构示意<a class="headerlink" href="#342" title="Permanent link">&para;</a></h4>
+<p>删除也和插入一样，是从下往上的。比如删除 3：</p>
+<p>1）第一次删除</p>
+<pre><code>head
+ ___
+|   | ---------------------------------------------------------&gt; null
+  |
+ ___      ___                                 ___
+|   | -&gt; | 1 | ----------------------------&gt; | 5 | ------------&gt; null
+  |        |                                   |
+ ___      ___               ___               ___
+|   | -&gt; | 1 | ----------&gt; | 3 | ----------&gt; | 5 | ------------&gt; null
+  |        |                                   |
+ ___      ___      ___               ___      ___      ___
+|   | -&gt; | 1 | -&gt; | 2 | ----------&gt; | 4 | -&gt; | 5 | -&gt; | 6 | ---&gt; null
+</code></pre>
+<p>2）第二次删除</p>
+<pre><code>head
+ ___
+|   | ---------------------------------------------------------&gt; null
+  |
+ ___      ___                                 ___
+|   | -&gt; | 1 | ----------------------------&gt; | 5 | ------------&gt; null
+  |        |                                   |
+ ___      ___                                 ___
+|   | -&gt; | 1 | ----------------------------&gt; | 5 | ------------&gt; null
+  |        |                                   |
+ ___      ___      ___               ___      ___      ___
+|   | -&gt; | 1 | -&gt; | 2 | ----------&gt; | 4 | -&gt; | 5 | -&gt; | 6 | ---&gt; null
+</code></pre>
+<h4 id="343">3.4.3 降低层级<a class="headerlink" href="#343" title="Permanent link">&para;</a></h4>
+<p>删除节点后，有可能导致跳表的上层节点变得比较少，此时需要降低层级。</p>
+<p>比如把 1 和 5 都删掉后：</p>
+<pre><code>head
+ ___
+|   | ---------------------------------------------------------&gt; null
+  |
+ ___                                          
+|   | ---------------------------------------------------------&gt; null
+  |                                             
+ ___                                      
+|   | ---------------------------------------------------------&gt; null
+  |                                             
+ ___               ___               ___               ___
+|   | ----------&gt; | 2 | ----------&gt; | 4 | ----------&gt; | 6 | ---&gt; null
+</code></pre>
+<p>上面几层链表都空了，浪费空间，这个时候需要将这些节点很少的层级删除：</p>
+<pre><code class="language-java">/**
+ * 降低层级
+ */
+private void levelDown() {
+    while (head.down != null) {
+        // 连续 2 层为空时，才降低层级，因为最上层只有 1 个头节点
+        if (head.right != null || head.down.right != null) {
+            break;
+        }
+        Node p = head;
+        head = head.down;
+        p.down = null;
+    }
+}
+</code></pre>
+<p>删除后，跳表又恢复成正常的结构了：</p>
+<pre><code>head
+ ___
+|   | ---------------------------------------------------------&gt; null
+  |                                             
+ ___               ___               ___               ___
+|   | ----------&gt; | 2 | ----------&gt; | 4 | ----------&gt; | 6 | ---&gt; null
+</code></pre>
+<h2 id="_5">四、跳表的应用场景<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>跳表设计的目的，是为了快速查找。所以它比较适合这些场景：</p>
+<ul>
+<li>是有序链表，无序链表用不了</li>
+<li>多次查询链表，注意是多次，只查一次的话不如直接遍历</li>
+<li>较少的插入和删除，虽然跳表的插入删除性能不差，但是其目的不在于此</li>
+</ul>
+<p>其实本质上，</p>
+<ul>
+<li>跳表就是二分查找的链表实现版本</li>
+</ul>
+<p>所以有序数组二分查找适用的场景，基本适用于有序链表的跳表。</p>
+<h2 id="_6">参考<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>https://leetcode.cn/problems/design-skiplist/</p>
+<p>https://blog.csdn.net/yjw123456/article/details/105159817/</p>
+<p>https://blog.csdn.net/weixin_45480785/article/details/116293416</p>
+<p>https://baijiahao.baidu.com/s?id=1710441201075985657&amp;wfr=spider&amp;for=pc</p>
+</blockquote>
+<h2 id="_7">附录<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="_8">跳表接口<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<pre><code class="language-java">/**
+ * 跳表接口
+ *
+ * @author weijiaduo
+ * @since 2022/7/28
+ */
+public interface SkipList&lt;T extends Comparable&lt;T&gt;&gt; {
+
+    /**
+     * 搜索指定值是否存在
+     *
+     * @param value 指定值
+     * @return true存在/false不存在
+     */
+    boolean search(T value);
+
+    /**
+     * 添加新值
+     *
+     * @param value 新值
+     */
+    void add(T value);
+
+    /**
+     * 删除指定值
+     *
+     * @param value 指定值
+     * @return true删除成功/false删除失败
+     */
+    boolean erase(T value);
+
+}
+</code></pre>
+<h3 id="_9">链表实现<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<pre><code class="language-java">/**
+ * 跳表（链表）
+ *
+ * @author weijiaduo
+ * @since 2022/7/28
+ */
+public class LinkedSkipList&lt;T extends Comparable&lt;T&gt;&gt; implements SkipList&lt;T&gt; {
+
+    class Node {
+        T value;
+        Node right;
+        Node down;
+
+        public Node(T value, Node right, Node down) {
+            this.value = value;
+            this.right = right;
+            this.down = down;
+        }
+    }
+
+    /**
+     * 默认最大层级
+     */
+    static final int DEFAULT_MAX_LEVEL = 32;
+    /**
+     * 随机因子
+     */
+    static final double FACTOR = 0.25;
+
+    /**
+     * 哨兵头节点
+     */
+    Node head;
+    /**
+     * 最大层级
+     */
+    int maxLevels;
+    /**
+     * 随机数
+     */
+    Random random = new Random();
+
+    public LinkedSkipList() {
+        this(DEFAULT_MAX_LEVEL);
+    }
+
+    public LinkedSkipList(int maxLevels) {
+        this.maxLevels = maxLevels;
+        this.head = new Node(null, null, null);
+    }
+
+    @Override
+    public boolean search(T value) {
+        Node p = head, q = null;
+        // 从上往下一直找，直到最底层的原始链表为止
+        while (p != null) {
+            // 在当前层遍历，直到找到 value 所在区间
+            while (p.right != null &amp;&amp; value.compareTo(p.right.value) &gt; 0) {
+                p = p.right;
+            }
+            // 记录上一层的转折点
+            q = p;
+            // 搜索下一层
+            p = p.down;
+        }
+        return q != null &amp;&amp; q.right != null &amp;&amp; q.right.value.equals(value);
+    }
+
+    @Override
+    public void add(T value) {
+        List&lt;Node&gt; processors = findProcessors(value);
+        int levels = processors.size();
+
+        Node newNode = null;
+        boolean insertUp = true;
+        for (int i = 0; i &lt; levels &amp;&amp; insertUp; i++) {
+            Node processor = processors.get(i);
+            // 新节点指向下一层的同值节点
+            newNode = new Node(value, processor.right, newNode);
+            // 在当前层插入新节点
+            processor.right = newNode;
+
+            // 是否要继续往上一层插入节点
+            insertUp = random.nextDouble() &lt; FACTOR;
+        }
+
+        // 更新层级
+        if (insertUp) {
+            levelUp();
+        }
+    }
+
+    @Override
+    public boolean erase(T value) {
+        List&lt;Node&gt; processors = findProcessors(value);
+
+        // 验证删除节点是否存在，没有找到则直接返回
+        Node target = processors.get(0).right;
+        if (target == null || !value.equals(target.value)) {
+            return false;
+        }
+
+        // 从下往上，逐层删除指定节点
+        for (Node processor : processors) {
+            // 指定 value 值的节点在每一层都删完了，就跳出循环
+            Node delNode = processor.right;
+            if (delNode == null || !delNode.value.equals(value)) {
+                break;
+            }
+            processor.right = delNode.right;
+        }
+
+        // 更新层级
+        levelDown();
+
+        return true;
+    }
+
+    /**
+     * 提升层级
+     */
+    private void levelUp() {
+        // 最上层只有一个头节点
+        head = new Node(null, null, head);
+    }
+
+    /**
+     * 降低层级
+     */
+    private void levelDown() {
+        while (head.down != null) {
+            // 连续 2 层为空时，才降低层级，因为最上层只有 1 个头节点
+            if (head.right != null || head.down.right != null) {
+                break;
+            }
+            Node p = head;
+            head = head.down;
+            p.down = null;
+        }
+    }
+
+    /**
+     * 查找指定值的前置路径
+     *
+     * @param value 指定值
+     * @return 前置路径
+     */
+    private List&lt;Node&gt; findProcessors(T value) {
+        Deque&lt;Node&gt; stack = new ArrayDeque&lt;&gt;();
+        Node p = head;
+        // 从上往下一直找，直到最底层的原始链表为止
+        while (p != null) {
+            // 在当前层遍历，直到找到 value 所在区间
+            while (p.right != null &amp;&amp; value.compareTo(p.right.value) &gt; 0) {
+                p = p.right;
+            }
+            // 记录上一层的转折点
+            stack.push(p);
+            // 搜索下一层
+            p = p.down;
+        }
+
+        // 路径是倒序摆放的，最接近值 value 的在索引 0 的位置
+        List&lt;Node&gt; path = new ArrayList&lt;&gt;(stack.size());
+        while (!stack.isEmpty()) {
+            path.add(stack.pop());
+        }
+        return path;
+    }
+
+}
+</code></pre>
+<h3 id="_10">数组实现<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<pre><code class="language-java">/**
+ * 跳表（数组实现）
+ *
+ * @author weijiaduo
+ * @since 2022/7/27
+ */
+public class ArraySkipList&lt;T extends Comparable&lt;T&gt;&gt; implements SkipList&lt;T&gt; {
+
+    class Node {
+        T value;
+        List&lt;Node&gt; forwards;
+
+        Node(T value, int levels) {
+            this.value = value;
+            forwards = new ArrayList&lt;&gt;(levels);
+            for (int i = 0; i &lt; levels; i++) {
+                forwards.add(null);
+            }
+        }
+    }
+
+    /**
+     * 默认最大层级
+     */
+    static final int DEFAULT_MAX_LEVEL = 32;
+    /**
+     * 随机因子
+     */
+    static final double FACTOR = 0.25;
+
+    /**
+     * 哨兵头节点
+     */
+    Node head;
+    /**
+     * 当前层级
+     */
+    int levels = 0;
+    /**
+     * 最大层级
+     */
+    int maxLevels;
+    /**
+     * 随机数
+     */
+    Random random = new Random();
+
+    public ArraySkipList() {
+        this(DEFAULT_MAX_LEVEL);
+    }
+
+    public ArraySkipList(int maxLevels) {
+        this.maxLevels = maxLevels;
+        head = new Node(null, maxLevels);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean search(T value) {
+        Node p = head, q = null;
+        // 从上往下一直找，直到最底层的原始链表为止
+        for (int i = levels - 1; i &gt;= 0; i--) {
+            // 在当前层遍历，直到找到 value 所在区间
+            Node right = p.forwards.get(i);
+            while (right != null &amp;&amp; value.compareTo(right.value) &gt; 0) {
+                p = right;
+                right = p.forwards.get(i);
+            }
+            // 记录上一层的转折点
+            q = p;
+        }
+        if (q != null) {
+            Node target = q.forwards.get(0);
+            return target != null &amp;&amp; value.equals(target.value);
+        }
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void add(T value) {
+        List&lt;Node&gt; processors = findProcessors(value);
+        int lv = randomLevel();
+        levels = Math.max(levels, lv);
+        Node newNode = new Node(value, levels);
+        for (int i = 0; i &lt; lv; i++) {
+            Node processor = processors.get(i);
+            newNode.forwards.set(i, processor.forwards.get(i));
+            processor.forwards.set(i, newNode);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean erase(T value) {
+        List&lt;Node&gt; processors = findProcessors(value);
+        Node target = processors.get(0).forwards.get(0);
+        if (target == null || !value.equals(target.value)) {
+            return false;
+        }
+
+        // 从下往上，逐层删除指定节点
+        for (int i = 0; i &lt; levels; i++) {
+            Node processor = processors.get(i);
+            Node delNode = processor.forwards.get(i);
+            if (delNode == null || delNode != target) {
+                break;
+            }
+            processor.forwards.set(i, delNode.forwards.get(i));
+        }
+
+        // 降低层级，最顶层只有头节点时
+        for (; levels &gt; 1; levels--) {
+            if (head.forwards.get(levels - 1) != null) {
+                break;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 查找指定值的前置路径
+     *
+     * @param value 指定值
+     * @return 前置路径
+     */
+    private List&lt;Node&gt; findProcessors(T value) {
+        List&lt;Node&gt; path = new ArrayList&lt;&gt;(maxLevels);
+        for (int i = 0; i &lt; maxLevels; i++) {
+            path.add(head);
+        }
+        Node p = head;
+        for (int i = levels - 1; i &gt;= 0; i--) {
+            // 在当前层遍历，直到找到 value 所在区间
+            Node right = p.forwards.get(i);
+            while (right != null &amp;&amp; value.compareTo(right.value) &gt; 0) {
+                p = right;
+                right = p.forwards.get(i);
+            }
+            // 记录上一层的转折点
+            path.set(i, p);
+        }
+        return path;
+    }
+
+    /**
+     * 随机层级
+     * &lt;p&gt;
+     * 这个随机有点影响时间
+     *
+     * @return 随即层级
+     */
+    private int randomLevel() {
+        int lv = 1;
+        while (lv &lt; maxLevels &amp;&amp; random.nextDouble() &lt; FACTOR) {
+            lv++;
+        }
+        return lv;
+    }
+
+}
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../linkedlist/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 2.1 &amp;nbsp; 链表">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                2.1 &nbsp; 链表
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../ch03_queue/" class="md-footer__link md-footer__link--next" aria-label="下一页: 队列">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                队列
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - 2023 weijiaduo
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.code.annotate", "content.code.copy", "content.tabs.link", "content.tooltips", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c8d2eff1.min.js"></script>
+      
+    
+  </body>
+</html>
